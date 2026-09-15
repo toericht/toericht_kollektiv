@@ -210,6 +210,8 @@ button:focus-visible {
 }
 
 .section-tag {
+  position: relative;
+  z-index: 2;
   margin-bottom: 18px;
   font-family: "bd-supper", Arial, sans-serif;
   font-weight: 700;
@@ -217,6 +219,10 @@ button:focus-visible {
   letter-spacing: 0.01em;
   color: var(--acid);
   text-transform: lowercase;
+  text-shadow:
+    1px 1px 0 var(--black), -1px 1px 0 var(--black),
+    1px -1px 0 var(--black), -1px -1px 0 var(--black),
+    0 0 10px rgba(0, 0, 0, .7);
 }
 
 #impressum .section-tag,
@@ -583,9 +589,9 @@ footer {
   }
 
   .scrap-moth {
-    width: 170px;
+    width: 90px;
     left: 5vw;
-    top: 665px;
+    top: 650px;
   }
 
   .scrap-worm {
