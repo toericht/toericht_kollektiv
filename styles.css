@@ -142,7 +142,6 @@ button:focus-visible {
   z-index: 1;
   height: auto;
   pointer-events: none;
-  filter: drop-shadow(6px 6px 0 rgba(255,255,255,.06));
 }
 
 .shape-lilac {
@@ -599,5 +598,9 @@ footer {
     left: 50%;
     margin-left: -80px;
     bottom: 6.5%;
+  }
+
+  footer {
+    font-size: 11px;
   }
 }
