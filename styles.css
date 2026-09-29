@@ -98,6 +98,30 @@ button:focus-visible {
   width: auto;
 }
 
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "bd-supper", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+.lang-switch a {
+  padding: 10px 4px;
+  margin: -10px -4px;
+}
+
+.lang-switch a[aria-current="true"] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.lang-switch .lang-sep {
+  color: var(--lilac);
+}
+
 .hero {
   position: relative;
   min-height: 100svh;
