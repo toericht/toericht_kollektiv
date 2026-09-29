@@ -414,6 +414,7 @@ button:focus-visible {
 .team-obsessions {
   display: grid;
   grid-template-columns: repeat(2, auto);
+  align-items: start;
   margin: 0;
   gap: 10px;
   justify-content: center;
