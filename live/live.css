@@ -8,6 +8,8 @@
   --tier-bad: #ff4b35;
   --muted: rgba(255, 255, 255, .6);
   --hairline: rgba(255, 255, 255, .22);
+  /* Rahmen von Bedienelementen: mindestens 3:1 gegen Schwarz */
+  --control: rgba(255, 255, 255, .55);
 }
 
 .is-best { --tier: var(--tier-best); }
@@ -23,7 +25,7 @@
   max-width: 560px;
   min-height: 100svh;
   margin: 0 auto;
-  padding: 96px 24px 28px;
+  padding: 96px max(24px, env(safe-area-inset-right)) calc(28px + env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
 }
 
 .live-main > #app {
@@ -133,7 +135,8 @@
 
 .live-input:focus-visible {
   border-bottom-color: var(--acid);
-  outline: none;
+  outline: 2px solid var(--acid);
+  outline-offset: 6px;
 }
 
 .live-input-code {
@@ -169,7 +172,9 @@ select.live-input {
 
 .live-link {
   align-self: flex-start;
-  margin-top: 24px;
+  /* Tippfläche mindestens 44px hoch */
+  min-height: 44px;
+  margin-top: 16px;
   padding: 10px 0;
   border: 0;
   background: none;
@@ -201,7 +206,7 @@ select.live-input {
   min-height: 58px;
   padding: 14px 18px;
   overflow: hidden;
-  border: 2px solid var(--hairline);
+  border: 2px solid var(--control);
   border-radius: 16px;
   background: transparent;
   color: var(--white);
@@ -267,7 +272,7 @@ select.live-input {
 .live-option.is-result,
 .live-option.is-result:disabled[aria-pressed="false"],
 .live-option.is-result[aria-pressed="true"] {
-  border-color: var(--tier, var(--hairline));
+  border-color: var(--tier, var(--control));
   background: transparent;
   color: var(--white);
 }
@@ -384,7 +389,16 @@ select.live-input {
   justify-content: center;
   gap: 10px;
   margin-top: 48px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, .4);
+  font-size: 13px;
+  color: var(--muted);
   text-transform: lowercase;
+}
+
+/* Die Überschrift einer neuen Ansicht wird nur für die Ansage fokussiert */
+#app h1:focus {
+  outline: none;
+}
+
+.live-footer a {
+  padding: 12px 4px;
 }

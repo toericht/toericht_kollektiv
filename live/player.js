@@ -125,6 +125,7 @@
   var app = document.getElementById('app');
   var banner = document.getElementById('conn-banner');
   banner.textContent = T.offline;
+  var announcer = document.getElementById('announcer');
 
   // -------------------------------------------------------------------------
   // Helfer
@@ -222,6 +223,8 @@
   var channel = null;
   var rtConnected = false;
   var lastRenderKey = null;
+  var lastScreen = null;
+  var lastStatus = '';
 
   function setOffline(on) {
     banner.hidden = !on;
@@ -547,12 +550,42 @@
     if (key === lastRenderKey) return;
     lastRenderKey = key;
 
+    // Ein Neuaufbau ersetzt alle Knöpfe. Lag der Fokus auf einer Antwort, kommt
+    // er danach auf dieselbe Antwort zurück (wichtig für Screenreader und Tastatur).
+    var active = document.activeElement;
+    var focusedOption = active && active.getAttribute ? active.getAttribute('data-option') : null;
+
     if (s === 'LOBBY') show(viewLobby());
     // Slides laufen nur auf dem Presenter; hier steht ein neutraler Wartezustand.
     else if (s === 'SLIDE') show(h('h1', { class: 'live-title' }, T.slideTitle), h('p', { class: 'live-text' }, T.slideText));
     else if (state.question) show(viewQuestion());
     else if (state.leaderboard) show(viewLeaderboard());
     else show(h('p', { class: 'live-text' }, T.loading));
+
+    // Neue Ansicht (anderer Zustand oder andere Frage): nach oben springen und
+    // die Überschrift fokussieren, damit Screenreader sie ansagen.
+    var screen = s + ':' + (state.question ? state.question.id : '');
+    if (screen !== lastScreen) {
+      lastScreen = screen;
+      window.scrollTo(0, 0);
+      var heading = app.querySelector('h1');
+      if (heading) {
+        heading.setAttribute('tabindex', '-1');
+        heading.focus({ preventScroll: true });
+      }
+    } else if (focusedOption) {
+      var same = app.querySelector('[data-option="' + focusedOption + '"]');
+      if (same) same.focus({ preventScroll: true });
+    }
+
+    // Statuszeile ("gespeichert", "zu spät" …) über einen festen Bereich ansagen;
+    // ein neu aufgebautes Element würden Screenreader nicht vorlesen.
+    var statusEl = app.querySelector('.live-status');
+    var statusText = statusEl ? statusEl.textContent : '';
+    if (statusText !== lastStatus) {
+      lastStatus = statusText;
+      announcer.textContent = statusText;
+    }
   }
 
   function viewLobby() {
@@ -596,13 +629,14 @@
         h('button', {
           class: 'live-option' + (res ? ' is-result' : '') + (tier ? ' is-' + tier : '') + (res && res.top ? ' is-top' : ''),
           type: 'button',
+          'data-option': o.id,
           'aria-pressed': isSelected ? 'true' : 'false',
           disabled: !open,
           onclick: function () { tapOption(o.id); }
         },
           bar,
           // gleicher Buchstabe wie auf dem Presenter, damit Bilder und Clips dort eindeutig zuzuordnen sind
-          h('span', { class: 'live-option-letter', 'aria-hidden': 'true' }, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.charAt(index)),
+          h('span', { class: 'live-option-letter' }, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.charAt(index)),
           tier ? h('span', { class: 'live-option-mark', title: T.tier[tier] }, TL.TIER_MARKS[tier]) : null,
           h('span', { class: 'live-option-label' }, o.label,
             tier ? h('span', { class: 'visually-hidden' }, ' – ' + T.tier[tier]) : null,
@@ -647,7 +681,7 @@
       open && multi ? h('p', { class: 'live-badge' }, T.pickMany(q.max_selections)) : null,
       h('ul', { class: 'live-options' }, options),
       sendButton,
-      h('p', { class: 'live-status', role: 'status' }, status)
+      h('p', { class: 'live-status' }, status)
     ];
   }
 
