@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <meta name="robots" content="noindex">
+  <title>töricht live</title>
+  <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+  <link rel="apple-touch-icon" href="../assets/images/favicon.png">
+  <link rel="preconnect" href="https://use.typekit.net" crossorigin>
+  <link rel="stylesheet" href="https://use.typekit.net/trh0ssw.css">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../live/live.css?v=11">
+</head>
+<body>
+  <header class="topbar">
+    <a class="mini-logo" href="../index.html" aria-label="töricht – Startseite">
+      <img src="../assets/images/oe.png" alt="">
+    </a>
+  </header>
+
+  <main class="live-main">
+    <div id="app">
+      <noscript><p class="live-text">Für das Spiel muss JavaScript aktiviert sein.</p></noscript>
+    </div>
+
+    <nav class="live-footer" aria-label="rechtliches">
+      <a href="../impressum.html">impressum</a>
+      <span aria-hidden="true">·</span>
+      <a href="../datenschutz.html">datenschutz</a>
+    </nav>
+  </main>
+
+  <div id="conn-banner" class="live-banner" role="status" hidden></div>
+
+  <script src="../live/vendor/supabase.js?v=2.58.0"></script>
+  <script src="../live/config.js?v=1"></script>
+  <script src="../live/api.js?v=11"></script>
+  <script src="../live/player.js?v=11"></script>
+</body>
+</html>

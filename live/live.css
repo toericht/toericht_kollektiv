@@ -1,0 +1,390 @@
+/* töricht live – Spieler:innen-Seite und gemeinsame Bausteine.
+   Ergänzt styles.css und nutzt dessen Farben und Schriften. */
+
+:root {
+  /* Auflösung: grün = höchste positive Punktzahl, gelb = positiv darunter, rot = 0 oder negativ */
+  --tier-best: #5fe08a;
+  --tier-good: #ffd84d;
+  --tier-bad: #ff4b35;
+  --muted: rgba(255, 255, 255, .6);
+  --hairline: rgba(255, 255, 255, .22);
+}
+
+.is-best { --tier: var(--tier-best); }
+.is-good { --tier: var(--tier-good); }
+.is-bad { --tier: var(--tier-bad); }
+/* Umfrage: meistgewählte Antwort hervorgehoben, der Rest neutral */
+.is-top { --tier: var(--acid); }
+
+.live-main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 560px;
+  min-height: 100svh;
+  margin: 0 auto;
+  padding: 96px 24px 28px;
+}
+
+.live-main > #app {
+  flex: 1;
+}
+
+/* Typografie */
+
+.live-tag {
+  display: inline-block;
+  margin: 0 0 20px;
+  font-family: "seismic-latin-variable", sans-serif;
+  font-variation-settings: "SEIS" 100, "wght" 700;
+  font-size: 24px;
+  line-height: 1;
+  color: var(--acid);
+  text-transform: lowercase;
+  transform: rotate(-4deg);
+}
+
+.live-title {
+  margin: 0 0 20px;
+  font-family: "bd-supper", Arial, sans-serif;
+  font-weight: 700;
+  font-size: clamp(40px, 12vw, 64px);
+  line-height: .96;
+  letter-spacing: -0.045em;
+  text-transform: lowercase;
+}
+
+.live-question {
+  margin: 0 0 28px;
+  font-family: "bd-supper", Arial, sans-serif;
+  font-weight: 700;
+  font-size: clamp(26px, 7.4vw, 38px);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  overflow-wrap: anywhere;
+}
+
+.live-text {
+  margin: 0 0 28px;
+  font-size: 20px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.live-status {
+  margin: 22px 0 0;
+  min-height: 1.4em;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.live-error {
+  margin: 10px 0 0;
+  min-height: 1.4em;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--red);
+}
+
+/* Hinweis bei Mehrfachauswahl, direkt über den Antworten */
+
+.live-badge {
+  display: inline-block;
+  margin: 0 0 16px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--acid);
+  color: var(--black);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.3;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Formulare */
+
+.live-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.live-label {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--muted);
+  text-transform: lowercase;
+}
+
+.live-input {
+  width: 100%;
+  padding: 14px 0;
+  border: 0;
+  border-bottom: 2px solid var(--white);
+  border-radius: 0;
+  background: transparent;
+  color: var(--white);
+  font-family: "bd-supper", Arial, sans-serif;
+  font-weight: 700;
+  /* mindestens 16px, sonst zoomt iOS beim Fokussieren */
+  font-size: 24px;
+}
+
+.live-input:focus-visible {
+  border-bottom-color: var(--acid);
+  outline: none;
+}
+
+.live-input-code {
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+select.live-input {
+  font-size: 18px;
+}
+
+.live-btn {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 18px 28px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--acid);
+  color: var(--black);
+  font-family: "bd-supper", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  text-align: center;
+  text-transform: lowercase;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.live-btn:disabled {
+  opacity: .35;
+  cursor: default;
+}
+
+.live-link {
+  align-self: flex-start;
+  margin-top: 24px;
+  padding: 10px 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-family: "bd-supper", Arial, sans-serif;
+  font-size: 15px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-transform: lowercase;
+  cursor: pointer;
+}
+
+/* Antwortoptionen */
+
+.live-options {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.live-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 58px;
+  padding: 14px 18px;
+  overflow: hidden;
+  border: 2px solid var(--hairline);
+  border-radius: 16px;
+  background: transparent;
+  color: var(--white);
+  font-family: "bd-supper", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.live-option[aria-pressed="true"] {
+  border-color: var(--acid);
+  background: var(--acid);
+  color: var(--black);
+}
+
+.live-option:disabled {
+  cursor: default;
+}
+
+.live-option:disabled[aria-pressed="false"] {
+  color: var(--muted);
+}
+
+/* gleicher Buchstabe wie auf dem Presenter */
+.live-option-letter {
+  position: relative;
+  flex: none;
+  min-width: 1em;
+  color: var(--acid);
+}
+
+.live-option[aria-pressed="true"]:not(.is-result) .live-option-letter {
+  color: var(--black);
+}
+
+.live-option-label {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.live-option-count {
+  position: relative;
+  flex: none;
+  font-weight: 400;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.live-option-bar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--tier, var(--white));
+  opacity: .16;
+}
+
+/* Auflösung: Text bleibt weiß, die Farbe sitzt auf Rand, Balken und Zeichen */
+
+.live-option.is-result,
+.live-option.is-result:disabled[aria-pressed="false"],
+.live-option.is-result[aria-pressed="true"] {
+  border-color: var(--tier, var(--hairline));
+  background: transparent;
+  color: var(--white);
+}
+
+.live-option.is-result .live-option-bar {
+  opacity: .28;
+}
+
+.live-option-mark {
+  position: relative;
+  flex: none;
+  width: 1.1em;
+  font-weight: 700;
+  text-align: center;
+  color: var(--tier);
+}
+
+.live-option-mine {
+  position: relative;
+  flex: none;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--black);
+  font-size: 11px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+/* eigene Wahl: zusätzlich ein weißer Außenrahmen */
+.live-option.is-result[aria-pressed="true"] {
+  box-shadow: 0 0 0 3px var(--black), 0 0 0 5px var(--white);
+}
+
+/* eigene Punkte für die Frage, in der Auflösung */
+
+.live-gain {
+  margin: -8px 0 24px;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.live-gain.is-plus { color: var(--tier-best); }
+.live-gain.is-minus { color: var(--tier-bad); }
+
+/* Rangliste: Zeilen statt Kästen */
+
+.live-board {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.live-board-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--hairline);
+  font-size: 18px;
+}
+
+.live-board-row.is-me {
+  color: var(--acid);
+}
+
+.live-board-rank,
+.live-board-score {
+  flex: none;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.live-board-rank {
+  min-width: 2em;
+}
+
+.live-board-name {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.live-board-time {
+  flex: none;
+  font-size: 13px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Verbindungshinweis */
+
+.live-banner {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 30;
+  padding: 12px 22px calc(12px + env(safe-area-inset-bottom));
+  background: var(--red);
+  color: var(--black);
+  font-weight: 700;
+  font-size: 15px;
+  text-align: center;
+}
+
+.live-banner[hidden] {
+  display: none;
+}
+
+.live-footer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 48px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, .4);
+  text-transform: lowercase;
+}

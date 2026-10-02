@@ -1,0 +1,632 @@
+/* töricht live – Host-Ansicht und Editor (Laptop).
+   Funktional, aber ruhig: Abstände und feine Linien statt Kästen.
+   Farbstufen und --muted/--hairline kommen aus live.css. */
+
+.host-main {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 28px 28px 80px;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.host-login {
+  max-width: 400px;
+  margin: 12vh auto 0;
+}
+
+.host-gap {
+  margin-top: 22px;
+}
+
+.host-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.host-title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+.host-state {
+  flex: none;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--acid);
+}
+
+.host-h2 {
+  margin: 36px 0 12px;
+  font-weight: 400;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.host-h2-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 36px 0 12px;
+}
+
+.host-h2-row .host-h2 {
+  margin: 0;
+}
+
+.host-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: start;
+}
+
+.host-panel {
+  min-width: 0;
+}
+
+.host-panel > .host-h2:first-child {
+  margin-top: 0;
+}
+
+/* Buttons: nur die Hauptaktion ist gefüllt, alles andere tritt zurück */
+
+.host-btn {
+  display: inline-block;
+  padding: 9px 16px;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--white);
+  font-family: "bd-supper", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.2;
+  text-transform: lowercase;
+  cursor: pointer;
+}
+
+.host-btn:hover:not(:disabled) {
+  border-color: var(--white);
+}
+
+.host-btn:disabled {
+  opacity: .3;
+  cursor: default;
+}
+
+.host-btn-primary {
+  border-color: var(--acid);
+  background: var(--acid);
+  color: var(--black);
+  font-weight: 700;
+}
+
+.host-btn-primary:hover:not(:disabled) {
+  border-color: var(--white);
+  background: var(--white);
+}
+
+.host-btn-danger {
+  border-color: transparent;
+  color: var(--red);
+}
+
+.host-btn-danger:hover:not(:disabled) {
+  border-color: var(--red);
+}
+
+.host-btn-small {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.host-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 28px 0 0;
+}
+
+.host-buttons .host-btn-primary {
+  padding: 15px 26px;
+  font-size: 18px;
+}
+
+.host-end {
+  margin-top: 44px;
+}
+
+/* Join-Infos und Zähler */
+
+.host-join {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.host-join-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.host-code {
+  margin: 0;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  color: var(--acid);
+}
+
+.host-meta {
+  margin: 0 0 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.host-url {
+  margin-top: 8px;
+  overflow-wrap: anywhere;
+}
+
+.host-stats {
+  margin-top: 24px;
+  font-size: 18px;
+}
+
+.host-stats p {
+  margin: 0 0 4px;
+}
+
+.host-stats strong {
+  font-variant-numeric: tabular-nums;
+}
+
+.host-question {
+  margin: 0 0 14px;
+  font-weight: 700;
+  font-size: 20px;
+  overflow-wrap: anywhere;
+}
+
+.host-slide-text {
+  margin: 0 0 14px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.host-empty {
+  margin: 0;
+  color: var(--muted);
+}
+
+.host-warn,
+.host-info {
+  margin: 16px 0 0;
+  font-size: 14px;
+}
+
+.host-warn {
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--red);
+  color: var(--black);
+  font-weight: 700;
+}
+
+.host-info {
+  color: var(--lilac);
+}
+
+/* Tabellen und Listen */
+
+.host-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.host-table th,
+.host-table td {
+  padding: 9px 8px 9px 0;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: middle;
+  overflow-wrap: anywhere;
+}
+
+.host-table th {
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: lowercase;
+}
+
+.host-table .num {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.host-table tr.is-removed td {
+  opacity: .4;
+}
+
+.host-actions {
+  white-space: nowrap;
+  text-align: right;
+}
+
+.host-actions .host-btn + .host-btn {
+  margin-left: 6px;
+}
+
+.host-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+  border: 1px solid var(--muted);
+  border-radius: 50%;
+}
+
+.host-dot.is-on {
+  border-color: var(--acid);
+  background: var(--acid);
+}
+
+.host-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.host-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.host-row-main {
+  flex: 1;
+  min-width: 0;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.host-row-meta {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Recovery-Code */
+
+.host-recovery {
+  margin-bottom: 20px;
+  padding-left: 16px;
+  border-left: 3px solid var(--acid);
+}
+
+.host-recovery p {
+  margin: 0 0 8px;
+}
+
+.host-recovery-code {
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  color: var(--acid);
+}
+
+/* Bilder in der Steuerung */
+
+.host-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.host-images img {
+  width: 120px;
+  height: 84px;
+  object-fit: contain;
+}
+
+/* Farbstufe einer Antwort */
+
+.ed-tier {
+  flex: none;
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--tier);
+  color: var(--black);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 22px;
+  text-align: center;
+}
+
+.ed-tier[hidden] {
+  display: none;
+}
+
+/* Quiz-Editor */
+
+.ed-main {
+  max-width: 820px;
+}
+
+.ed-head {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  margin: 0 -28px 24px;
+  padding: 16px 28px;
+  background: var(--black);
+  border-bottom: 1px solid var(--line);
+}
+
+.ed-status {
+  flex: none;
+  max-width: 46%;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.ed-status.is-error {
+  color: var(--red);
+  font-weight: 700;
+}
+
+.ed-title {
+  margin-top: 8px;
+}
+
+.ed-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 20px 0 8px;
+}
+
+.ed-questions {
+  margin: 28px 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Einträge: durch Linie und Abstand getrennt statt eingerahmt */
+.ed-question {
+  padding: 28px 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.ed-question-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.ed-number {
+  flex: 1;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--acid);
+}
+
+.ed-slide .ed-number,
+.ed-poll .ed-number {
+  color: var(--lilac);
+}
+
+.ed-input {
+  padding: 10px 12px;
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--white);
+  font-family: "neue-haas-grotesk-text", Arial, sans-serif;
+  font-size: 16px;
+}
+
+.ed-input:focus-visible {
+  border-color: var(--acid);
+  outline: none;
+}
+
+.ed-input:disabled {
+  opacity: .5;
+}
+
+select.ed-input option {
+  background: var(--black);
+  color: var(--white);
+}
+
+.ed-text {
+  display: block;
+  width: 100%;
+  resize: vertical;
+}
+
+.ed-type {
+  max-width: 100%;
+  margin-bottom: 10px;
+}
+
+.ed-row .ed-type {
+  margin-bottom: 0;
+}
+
+.ed-gap {
+  margin-top: 8px;
+}
+
+.ed-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0 18px;
+}
+
+.ed-max {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.ed-points {
+  width: 88px;
+  text-align: right;
+}
+
+.ed-option-head {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 88px 118px;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.ed-options {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.ed-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ed-option .ed-tier {
+  margin-right: 0;
+}
+
+.ed-option > .ed-input:first-of-type {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Bilder im Editor */
+
+.ed-images-wrap {
+  margin: 14px 0 4px;
+}
+
+.ed-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 0 0 10px;
+  padding: 0;
+  list-style: none;
+}
+
+.ed-image img {
+  display: block;
+  width: 180px;
+  height: 124px;
+  object-fit: contain;
+  background: rgba(255, 255, 255, .04);
+}
+
+.ed-image-tools {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+@media (max-width: 900px) {
+  .host-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .host-head {
+    flex-wrap: wrap;
+  }
+}
+
+/* Video und Audio im Editor */
+
+.ed-media-wrap {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+  margin: 12px 0 4px;
+}
+
+.ed-video {
+  display: block;
+  width: 320px;
+  max-width: 100%;
+  max-height: 200px;
+  background: rgba(255, 255, 255, .04);
+}
+
+.ed-sounds {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ed-sound {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.ed-audio {
+  height: 36px;
+  max-width: 100%;
+}
+
+.ed-clip-letter {
+  flex: none;
+  width: 1.4em;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--acid);
+}
+
+.ed-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.ed-image-tools {
+  flex-wrap: wrap;
+  align-items: center;
+}

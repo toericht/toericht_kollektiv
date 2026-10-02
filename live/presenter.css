@@ -1,0 +1,561 @@
+/* töricht live – Presenter-Ansicht (Beamer, 16:9).
+   Größen in vh/vw, damit alles mit der Projektion mitwächst.
+   Farbstufen und --muted/--hairline kommen aus live.css. */
+
+html,
+body {
+  height: 100%;
+}
+
+.pres-main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 6vh 7vw 7vh;
+  overflow: hidden;
+}
+
+.pres-main > #app {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 0;
+}
+
+.pres-logo {
+  position: absolute;
+  top: 4vh;
+  right: 4vw;
+  height: 4.5vh;
+  width: auto;
+}
+
+.pres-tag {
+  display: inline-block;
+  align-self: flex-start;
+  flex: none;
+  margin: 0 0 3vh;
+  font-family: "seismic-latin-variable", sans-serif;
+  font-variation-settings: "SEIS" 100, "wght" 700;
+  font-size: 4.2vh;
+  line-height: 1;
+  color: var(--acid);
+  text-transform: lowercase;
+  transform: rotate(-4deg);
+}
+
+.pres-label {
+  margin: 0 0 1vh;
+  font-size: 2.8vh;
+  color: var(--muted);
+  text-transform: lowercase;
+}
+
+.pres-note {
+  flex: none;
+  margin: 3vh 0 0;
+  font-size: 2.8vh;
+  line-height: 1.3;
+  color: var(--muted);
+}
+
+.pres-center {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3vh;
+}
+
+.pres-corner {
+  position: absolute;
+  left: 7vw;
+  bottom: 2.4vh;
+  margin: 0;
+  font-size: 2.2vh;
+  color: rgba(255, 255, 255, .45);
+}
+
+/* Lobby */
+
+.pres-lobby {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6vw;
+}
+
+.pres-lobby-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.pres-url {
+  margin: 0 0 6vh;
+  font-weight: 700;
+  font-size: 7vh;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  overflow-wrap: anywhere;
+}
+
+.pres-code {
+  margin: 0;
+  font-weight: 700;
+  font-size: 21vh;
+  line-height: .9;
+  letter-spacing: 0.08em;
+  color: var(--acid);
+}
+
+.pres-qr {
+  flex: none;
+  width: min(32vw, 60vh);
+  background: var(--white);
+}
+
+.pres-qr svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Frage: Text und Antworten haben Vorrang, Bilder bekommen den restlichen Platz */
+
+.pres-question {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.pres-question-text,
+.pres-results-text {
+  flex: none;
+  margin: 0 0 4.5vh;
+  font-family: "bd-supper", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 6.4vh;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  overflow-wrap: anywhere;
+}
+
+/* Antworten ohne Kästen: Buchstabe in Akzentfarbe, feine Linie darunter */
+
+.pres-options {
+  flex: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 4vw;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pres-option {
+  display: flex;
+  align-items: baseline;
+  gap: 1.4vw;
+  padding: 2vh 0;
+  border-bottom: 0.2vh solid var(--hairline);
+  font-weight: 700;
+  font-size: 3.8vh;
+  line-height: 1.15;
+}
+
+.pres-options.is-dense .pres-option {
+  padding: 1.3vh 0;
+  font-size: 3vh;
+}
+
+.pres-option-letter {
+  flex: none;
+  color: var(--acid);
+}
+
+.pres-option-label {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Bilder: Die Fläche bekommt den restlichen Platz, jedes Bild füllt seine Zelle
+   und wird per object-fit: contain eingepasst – nie verzerrt, nie beschnitten. */
+
+.pres-images {
+  flex: 1 1 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 2vh 2vw;
+  width: 100%;
+  min-height: 0;
+}
+
+.pres-images img,
+.pres-images video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  object-fit: contain;
+}
+
+/* Bild mit Buchstabe, damit Antworten auf dem Handy eindeutig zuzuordnen sind */
+.pres-figure {
+  position: relative;
+  margin: 0;
+  min-width: 0;
+  min-height: 0;
+}
+
+.pres-figure figcaption {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.6vh 1.6vh;
+  background: var(--acid);
+  color: var(--black);
+  font-weight: 700;
+  font-size: 3.4vh;
+  line-height: 1.2;
+}
+
+/* Slides: 2 nebeneinander, 3 in einer Reihe, 4 als 2×2, 5–6 als 3×2 */
+.pres-images.is-2,
+.pres-images.is-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.pres-images.is-3,
+.pres-images.is-5,
+.pres-images.is-6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.pres-images.is-7 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+.pres-question.has-images {
+  flex: 1 1 0;
+}
+
+/* Frage mit Bildern: Die Höhe ist knapp, deshalb stehen bis zu 4 Bilder in
+   einer Reihe; so bleiben sie größer als im 2×2-Raster. */
+.pres-question.has-images .pres-images { margin-bottom: 3vh; }
+.pres-question.has-images .pres-images.is-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+.pres-question.has-images .pres-question-text {
+  margin-bottom: 2.5vh;
+  font-size: 4.6vh;
+}
+
+.pres-question.has-images .pres-option {
+  padding: 1.2vh 0;
+  font-size: 3vh;
+}
+
+.pres-question.has-images .pres-note {
+  margin-top: 1.6vh;
+  font-size: 2.4vh;
+}
+
+/* Auflösung als horizontale Balken */
+
+.pres-results {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.pres-results-text {
+  margin-bottom: 4vh;
+  font-size: 5vh;
+}
+
+.pres-bars {
+  display: grid;
+  gap: 3vh;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pres-bars.is-dense {
+  gap: 1.9vh;
+}
+
+.pres-bar-head {
+  display: flex;
+  align-items: baseline;
+  gap: 1.2vw;
+  margin-bottom: 1vh;
+  font-size: 3.6vh;
+  line-height: 1.15;
+}
+
+.pres-bars.is-dense .pres-bar-head {
+  font-size: 2.9vh;
+}
+
+/* Buchstabe, Punkte und Balken tragen die Farbe; Antworttext und Zahlen bleiben weiß */
+.pres-bar-letter {
+  flex: none;
+  width: 1.2em;
+  font-weight: 700;
+  color: var(--tier, var(--muted));
+}
+
+.pres-bar-points {
+  flex: none;
+  font-weight: 700;
+  color: var(--tier);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.pres-bar-label {
+  flex: 1;
+  min-width: 0;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.pres-bar-value {
+  flex: none;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.pres-bar-value strong {
+  color: var(--white);
+}
+
+.pres-bar-track {
+  height: 1.8vh;
+  border-radius: 0 0.9vh 0.9vh 0;
+  background: rgba(255, 255, 255, .08);
+}
+
+.pres-bars.is-dense .pres-bar-track {
+  height: 1.3vh;
+}
+
+.pres-bar-fill {
+  display: block;
+  height: 100%;
+  /* auch bei 0 Stimmen bleibt ein Ansatz sichtbar */
+  min-width: 0.4vh;
+  border-radius: 0 0.9vh 0.9vh 0;
+  background: var(--tier, rgba(255, 255, 255, .4));
+  transform-origin: left center;
+  animation: pres-grow .7s cubic-bezier(.2, .7, .2, 1) both;
+}
+
+.pres-bar.is-rest .pres-bar-label {
+  font-weight: 400;
+}
+
+@keyframes pres-grow {
+  from { transform: scaleX(0); }
+}
+
+/* Audio-Clips einer Frage: A, B, C … – von Hand gestartet */
+
+.pres-clips {
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.6vh 1.6vw;
+  margin: 0 0 3vh;
+}
+
+.pres-clip {
+  display: flex;
+  align-items: baseline;
+  gap: 1vw;
+  padding: 1.6vh 2.2vw;
+  border: 0.3vh solid var(--white);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--white);
+  font-family: "bd-supper", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 3.4vh;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.pres-clip-letter {
+  color: var(--acid);
+}
+
+.pres-clip.is-playing {
+  border-color: var(--acid);
+  background: var(--acid);
+  color: var(--black);
+}
+
+.pres-clip.is-playing .pres-clip-letter {
+  color: var(--black);
+}
+
+/* erscheint nur, wenn der Browser den Ton blockiert hat */
+.pres-sound {
+  position: absolute;
+  right: 4vw;
+  bottom: 8vh;
+  padding: 1.4vh 2vw;
+  border: 0;
+  border-radius: 999px;
+  background: var(--red);
+  color: var(--black);
+  font-family: "bd-supper", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 2.6vh;
+  cursor: pointer;
+}
+
+.pres-start {
+  margin-top: 0;
+  padding: 3vh 5vw;
+  font-size: 5vh;
+}
+
+/* Slide */
+
+.pres-slide {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.pres-slide-heading {
+  flex: none;
+  margin: 0 0 3vh;
+  padding-right: 8vw;
+  font-family: "bd-supper", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 9vh;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  overflow-wrap: anywhere;
+}
+
+.pres-slide-text {
+  flex: none;
+  margin: 0 0 3vh;
+  max-width: 76vw;
+  font-size: 4.4vh;
+  line-height: 1.3;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Slide nur mit Text: vertikal mittig */
+.pres-slide:not(:has(.pres-images)) {
+  justify-content: center;
+}
+
+/* Rangliste: Zeilen statt Kästen */
+
+.pres-board-wrap {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.pres-winner {
+  margin-bottom: 4vh;
+}
+
+.pres-winner-name {
+  margin: 0;
+  font-weight: 700;
+  font-size: 12vh;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  color: var(--acid);
+  overflow-wrap: anywhere;
+}
+
+.pres-winner .pres-note {
+  margin-top: 1vh;
+}
+
+.pres-board {
+  display: grid;
+  gap: 0 5vw;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pres-board.is-two-col {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(5, auto);
+  grid-auto-flow: column;
+}
+
+.pres-board-row {
+  display: flex;
+  align-items: baseline;
+  gap: 1.2vw;
+  padding: 1.7vh 0;
+  border-bottom: 0.2vh solid var(--hairline);
+  font-size: 3.6vh;
+}
+
+.pres-board-row.is-first {
+  color: var(--acid);
+}
+
+.pres-board-rank,
+.pres-board-score {
+  flex: none;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.pres-board-rank {
+  min-width: 2.2em;
+}
+
+.pres-board-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.pres-board-time {
+  flex: none;
+  font-size: 2.4vh;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Vollbild-Knopf: verschwindet im Vollbild */
+
+.pres-fullscreen {
+  position: fixed;
+  right: 2vw;
+  bottom: 2vh;
+  padding: 6px 12px;
+  border: 0;
+  background: none;
+  color: rgba(255, 255, 255, .4);
+  font-family: "bd-supper", Arial, sans-serif;
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+:fullscreen .pres-fullscreen {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pres-bar-fill {
+    animation: none;
+  }
+}
