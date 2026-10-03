@@ -18,7 +18,7 @@
     QUESTION_OPEN: 'frage offen',
     QUESTION_CLOSED: 'frage geschlossen',
     RESULTS: 'ergebnisse sichtbar',
-    LEADERBOARD: 'leaderboard sichtbar',
+    LEADERBOARD: 'zwischenstand sichtbar',
     FINAL_RESULTS: 'finale sichtbar',
     ENDED: 'beendet'
   };
@@ -125,7 +125,7 @@
         var items = z.questions || [];
         var slides = items.filter(function (q) { return q.kind === 'slide'; }).length;
         var polls = items.filter(function (q) { return q.kind === 'poll'; }).length;
-        var count = items.length - slides - polls;
+        var count = items.filter(function (q) { return q.kind === 'question'; }).length;
         var button = h('button', {
           class: 'host-btn host-btn-primary', type: 'button', disabled: count + polls === 0,
           onclick: function () {
@@ -345,30 +345,28 @@
     var next = function (primary) {
       var label = !hasNext ? 'kein weiterer eintrag'
         : nextKind === 'slide' ? 'weiter: slide zeigen'
+        : nextKind === 'leaderboard' ? 'weiter: zwischenstand zeigen'
         : nextKind === 'poll' ? 'weiter: umfrage starten' : 'weiter: frage starten';
       return button(label, 'OPEN_NEXT', { primary: primary && hasNext, disabled: !hasNext });
     };
     var final = function (primary) { return button('finale zeigen', 'SHOW_FINAL', { primary: primary }); };
 
     if (s === 'LOBBY') return [next(true)];
-    if (s === 'SLIDE') return [
-      next(true), final(!hasNext),
-      button('leaderboard zeigen', 'SHOW_LEADERBOARD')
-    ];
+    // Den Zwischenstand gibt es nur dort, wo er im Editor eingeplant ist.
+    if (s === 'SLIDE') return [next(true), final(!hasNext)];
     if (s === 'QUESTION_OPEN') return [button('frage schließen', 'CLOSE', { primary: true })];
     if (s === 'QUESTION_CLOSED') return [
       button('ergebnisse zeigen', 'SHOW_RESULTS', { primary: true }),
-      button('leaderboard zeigen', 'SHOW_LEADERBOARD'),
       next(false), final(false),
       button('frage wieder öffnen', 'REOPEN')
     ];
-    if (s === 'RESULTS') return [
-      button('leaderboard zeigen', 'SHOW_LEADERBOARD', { primary: true }),
-      next(false), final(!hasNext)
-    ];
+    if (s === 'RESULTS') return [next(true), final(!hasNext)];
+    // Verstecken nur, wenn der Zwischenstand über einer Frage oder Slide liegt
+    // (ältere Sessions); ein eingeplanter Zwischenstand hat nichts dahinter.
     if (s === 'LEADERBOARD') return [
       next(true), final(!hasNext),
-      button('leaderboard verstecken', 'SHOW_RESULTS')
+      state.current_kind && state.current_kind !== 'leaderboard'
+        ? button('zwischenstand verstecken', 'SHOW_RESULTS') : null
     ];
     return [];
   }
@@ -393,6 +391,9 @@
         TL.imageRow(state.slide.images, 'host-images'),
         mediaNote(state.slide.media)
       ];
+    }
+    if (state.current_kind === 'leaderboard') {
+      return h('p', { class: 'host-meta' }, 'zwischenstand · rangliste auf presenter und handys');
     }
     var q = state.question;
     if (!q) return h('p', { class: 'host-empty' }, 'noch nichts gestartet.');

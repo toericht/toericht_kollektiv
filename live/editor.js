@@ -37,6 +37,7 @@
     INVALID_POINTS: 'punkte müssen ganze zahlen sein (auch negativ).',
     INVALID_SLIDE: 'überschrift (höchstens 200 zeichen) oder text (höchstens 1000 zeichen) der slide sind zu lang.',
     EMPTY_SLIDE: 'die slide ist leer. sie braucht eine überschrift, einen text oder ein bild.',
+    INVALID_LEADERBOARD: 'ein zwischenstand hat keine antworten.',
     INVALID_MEDIA: 'video oder audio dieses eintrags sind ungültig.',
     INVALID_IMAGES: 'die bilder dieses eintrags sind ungültig (höchstens sechs).',
     QUIZ_NOT_FOUND: 'dieses quiz gibt es nicht mehr.',
@@ -57,6 +58,7 @@
       options: [newOption(), newOption()]
     };
   }
+  function newLeaderboard() { return { id: null, kind: 'leaderboard', images: [], media: emptyMedia() }; }
   function newSlide() { return { id: null, kind: 'slide', heading: '', text: '', images: [], media: emptyMedia() }; }
 
   // -------------------------------------------------------------------------
@@ -81,6 +83,7 @@
         id: row.id,
         title: row.title,
         items: row.questions.sort(byPosition).map(function (q) {
+          if (q.kind === 'leaderboard') return { id: q.id, kind: 'leaderboard', images: [], media: emptyMedia() };
           if (q.kind === 'slide') {
             return {
               id: q.id, kind: 'slide', heading: q.heading || '', text: q.text || '',
@@ -104,6 +107,7 @@
       id: withIds ? quiz.id : null,
       title: quiz.title,
       items: quiz.items.map(function (it) {
+        if (it.kind === 'leaderboard') return { id: withIds ? it.id : null, kind: 'leaderboard' };
         if (it.kind === 'slide') {
           return {
             id: withIds ? it.id : null, kind: 'slide',
@@ -504,6 +508,7 @@
         id: null,
         title: String(data.title || 'importiertes quiz'),
         items: list.map(function (it) {
+          if (it.kind === 'leaderboard') return newLeaderboard();
           if (it.kind === 'slide') {
             return {
               id: null, kind: 'slide', heading: String(it.heading || ''), text: String(it.text || ''),
@@ -583,7 +588,8 @@
     });
     return h('li', { class: 'ed-option' },
       h('span', { class: 'ed-tier', 'aria-hidden': 'true', hidden: isPoll }),
-      label, isPoll ? null : pointsInput,
+      label,
+      isPoll ? null : h('span', { class: 'ed-points-wrap' }, h('span', { class: 'ed-points-label' }, 'punkte'), pointsInput),
       iconButton('↑', 'antwort nach oben', function () { move(q.options, index, -1); }, index === 0),
       iconButton('↓', 'antwort nach unten', function () { move(q.options, index, 1); }, index === q.options.length - 1),
       iconButton('✕', 'antwort löschen', function () {
@@ -694,6 +700,13 @@
       viewMedia(s));
   }
 
+  function viewLeaderboard(index) {
+    return h('li', { class: 'host-panel ed-question ed-board' },
+      itemHead('zwischenstand', index),
+      h('p', { class: 'host-meta' }, 'zeigt hier die aktuelle rangliste auf presenter und handys. ' +
+        'der host kommt mit „weiter" zum nächsten eintrag.'));
+  }
+
   function addItem(item) {
     quiz.items.push(item);
     setDirty();
@@ -726,6 +739,7 @@
 
     var number = 0;
     var items = quiz.items.map(function (it, index) {
+      if (it.kind === 'leaderboard') return viewLeaderboard(index);
       if (it.kind === 'slide') return viewSlide(it, index);
       // nur gewertete Fragen werden durchnummeriert
       if (it.kind === 'question') number++;
@@ -784,7 +798,9 @@
         h('button', { class: 'host-btn', type: 'button', disabled: !!lockedBy,
           onclick: function () { addItem(newQuestion()); } }, '+ frage'),
         h('button', { class: 'host-btn', type: 'button', disabled: !!lockedBy,
-          onclick: function () { addItem(newSlide()); } }, '+ slide')));
+          onclick: function () { addItem(newSlide()); } }, '+ slide'),
+        h('button', { class: 'host-btn', type: 'button', disabled: !!lockedBy,
+          onclick: function () { addItem(newLeaderboard()); } }, '+ zwischenstand')));
 
     updateStatus();
   }

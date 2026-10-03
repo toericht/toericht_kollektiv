@@ -33,7 +33,7 @@
   font-weight: 700;
   font-size: 22px;
   letter-spacing: -0.02em;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 .host-state {
@@ -180,7 +180,7 @@
 
 .host-url {
   margin-top: 8px;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 .host-stats {
@@ -200,13 +200,13 @@
   margin: 0 0 14px;
   font-weight: 700;
   font-size: 20px;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 .host-slide-text {
   margin: 0 0 14px;
   white-space: pre-wrap;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 .host-empty {
@@ -246,7 +246,7 @@
   border-bottom: 1px solid var(--line);
   text-align: left;
   vertical-align: middle;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 .host-table th {
@@ -307,7 +307,7 @@
   flex: 1;
   min-width: 0;
   font-weight: 700;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 .host-row-meta {
@@ -437,7 +437,8 @@
 }
 
 .ed-slide .ed-number,
-.ed-poll .ed-number {
+.ed-poll .ed-number,
+.ed-board .ed-number {
   color: var(--lilac);
 }
 
@@ -629,4 +630,122 @@ select.ed-input option {
 .ed-image-tools {
   flex-wrap: wrap;
   align-items: center;
+}
+
+/* Punkte-Beschriftung neben dem Feld erscheint nur auf schmalen Bildschirmen */
+.ed-points-wrap {
+  display: contents;
+}
+
+.ed-points-label {
+  display: none;
+}
+
+/* Handy: Kopfzeilen und Zeilen umbrechen statt quetschen */
+@media (max-width: 640px) {
+  .host-main {
+    padding: 16px 16px 64px;
+  }
+
+  .host-head {
+    flex-wrap: wrap;
+    gap: 10px 12px;
+    margin-bottom: 24px;
+  }
+
+  /* Titel bekommt eine eigene Zeile unter den Knöpfen */
+  .host-head .host-title {
+    order: 10;
+    flex: 1 1 100%;
+    font-size: 20px;
+  }
+
+  .host-head .host-state {
+    order: 11;
+  }
+
+  .ed-head {
+    margin: 0 -16px 20px;
+    padding: 12px 16px;
+  }
+
+  .ed-head .host-btn-primary {
+    margin-left: auto;
+  }
+
+  .ed-status {
+    order: 12;
+    flex: 1 1 100%;
+    max-width: none;
+  }
+
+  /* Übersicht: Name oben, Angaben und Knöpfe darunter */
+  .host-row {
+    flex-wrap: wrap;
+  }
+
+  .host-row-main {
+    flex: 1 1 100%;
+  }
+
+  .host-row-meta {
+    flex: 1 1 auto;
+  }
+
+  .host-join {
+    flex-direction: column;
+  }
+
+  .host-join-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .host-code {
+    font-size: 40px;
+  }
+
+  /* breite Tabellen lassen sich seitlich wischen, statt die Seite zu sprengen */
+  .host-panel {
+    overflow-x: auto;
+  }
+
+  /* Editor: Antwort auf eine eigene Zeile, Punkte und Knöpfe darunter */
+  .ed-option-head {
+    display: none;
+  }
+
+  .ed-option {
+    flex-wrap: wrap;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .ed-option > .ed-input:first-of-type {
+    flex: 1 1 calc(100% - 40px);
+  }
+
+  .ed-points-label {
+    display: inline;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .ed-points {
+    width: 76px;
+  }
+
+  .ed-image img {
+    width: calc(50vw - 30px);
+    height: 110px;
+  }
+
+  .ed-video {
+    width: 100%;
+  }
+
+  .ed-type {
+    width: 100%;
+  }
 }
