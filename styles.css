@@ -291,6 +291,7 @@ button:focus-visible {
 }
 
 #was .section-tag,
+#wann .section-tag,
 #wer .section-tag,
 #warum .section-tag,
 #mitmachen .section-tag {
@@ -305,6 +306,7 @@ button:focus-visible {
 }
 
 #was .section-tag { margin-bottom: 21px; }
+#wann .section-tag { margin-bottom: 21px; }
 #wer .section-tag { margin-bottom: 21px; }
 #warum .section-tag { margin-bottom: 25px; }
 #mitmachen .section-tag { margin-bottom: 31px; }
@@ -618,6 +620,7 @@ footer {
   }
 
   #was .section-tag,
+  #wann .section-tag,
   #wer .section-tag,
   #warum .section-tag,
   #mitmachen .section-tag {
@@ -627,6 +630,7 @@ footer {
   }
 
   #was .section-tag { margin-bottom: 17px; }
+  #wann .section-tag { margin-bottom: 17px; }
   #wer .section-tag { margin-bottom: 17px; }
   #warum .section-tag { margin-bottom: 18px; }
   #mitmachen .section-tag { margin-bottom: 20px; }
@@ -727,5 +731,163 @@ footer {
   .team-card:nth-child(odd),
   .team-card:nth-child(even) {
     transform: none;
+  }
+}
+
+/* Events
+   Eine klare Linie: links das Artwork (das einzige bewegte Element), rechts
+   alles linksbündig in festem Rhythmus. */
+
+.content-card-wide {
+  max-width: 1000px;
+}
+
+.event {
+  display: grid;
+  gap: 20px;
+}
+
+.event-lockup {
+  position: relative;
+  justify-self: center;
+  width: min(70vw, 300px);
+  /* Platz für den Schriftzug unter dem Kessel */
+  margin-bottom: 33%;
+  animation: float-event 17s ease-in-out infinite -4s;
+}
+
+.event-art {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Schriftzug unter dem Kessel angesetzt, wie ein aufgeklebter Schnipsel:
+   er berührt nur den Kesselrand und lässt den Titel frei */
+.event-lettering {
+  position: absolute;
+  top: 91%;
+  right: -6%;
+  width: 54%;
+  height: auto;
+  animation: float-event-soft 11s ease-in-out infinite -3s;
+}
+
+@keyframes float-event {
+  0%, 100% { transform: translate(0, 0) rotate(-3deg); }
+  35%      { transform: translate(10px, -12px) rotate(1deg); }
+  70%      { transform: translate(-8px, 8px) rotate(-6deg); }
+}
+
+@keyframes float-event-soft {
+  0%, 100% { transform: rotate(-4deg); }
+  50%      { transform: translate(4px, -5px) rotate(1deg); }
+}
+
+.event-body {
+  max-width: 500px;
+}
+
+.content-card .event-text {
+  margin: 0 0 14px;
+  font-size: clamp(18px, 1.9vw, 21px);
+  line-height: 1.45;
+}
+
+/* hervorgehobene Wörter wie auf dem Plakat */
+.event-text strong {
+  font-weight: 700;
+  color: var(--acid);
+}
+
+/* Datum als Grafik, daneben die Fakten */
+.event-info {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin: 30px 0;
+  padding: 22px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.event-date {
+  flex: none;
+  width: 108px;
+  height: auto;
+}
+
+.event-facts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: "bd-supper", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, .85);
+}
+
+.event-facts li:first-child {
+  color: var(--white);
+}
+
+.ticket-button {
+  display: inline-block;
+  padding: 15px 34px;
+  border-radius: 999px;
+  background: var(--acid);
+  color: var(--black);
+  font-family: "bd-supper", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  text-transform: lowercase;
+  transition: background .15s ease;
+}
+
+.ticket-button:hover {
+  background: var(--lilac);
+}
+
+/* Laptop: Artwork links, Infos rechts */
+@media (min-width: 860px) {
+  .event {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    align-items: center;
+    gap: 72px;
+  }
+
+  .event-lockup {
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 420px) {
+  .event-info {
+    gap: 16px;
+  }
+
+  .event-date {
+    width: 84px;
+  }
+
+  .event-facts {
+    font-size: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .event-lockup,
+  .event-lettering {
+    animation: none;
+  }
+
+  .event-lockup {
+    transform: rotate(-3deg);
+  }
+
+  .event-lettering {
+    transform: rotate(-4deg);
   }
 }
