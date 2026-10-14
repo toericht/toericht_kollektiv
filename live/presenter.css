@@ -559,3 +559,23 @@ body {
     animation: none;
   }
 }
+
+/* Automatisches Einpassen (siehe fit() in presenter.js): Jede Ansicht ist auf die
+   verfügbare Höhe begrenzt, damit sich messen lässt, ob ihr Inhalt übersteht. */
+
+.pres-main > #app > * {
+  min-height: 0;
+  max-height: 100%;
+}
+
+/* Bilder geben zuerst Platz ab, aber nur bis zu einer Mindesthöhe; danach wird
+   die ganze Ansicht verkleinert. */
+.pres-images {
+  min-height: 22vh;
+}
+
+.pres-images.is-5,
+.pres-images.is-6,
+.pres-slide .pres-images.is-4 {
+  min-height: 34vh;
+}

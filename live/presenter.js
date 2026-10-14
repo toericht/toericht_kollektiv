@@ -470,7 +470,30 @@
     else if (s === 'RESULTS' && state.question) show(viewResults());
     else if (state.question) show(viewQuestion());
     else show(viewBoard());
+    fit();
   }
+
+  // Im Vollbild muss immer alles sichtbar sein. Passt der Inhalt nicht auf die
+  // Fläche, wird die ganze Ansicht schrittweise verkleinert, bis nichts mehr
+  // übersteht. "zoom" verkleinert Schrift und Abstände gemeinsam und lässt den
+  // Text dabei neu umbrechen. Geprüft wird an der Ansicht selbst: Sie ist auf
+  // die verfügbare Höhe begrenzt, übersteht ihr Inhalt, ist scrollHeight größer.
+  function fit() {
+    var view = app.firstElementChild;
+    if (!view) return;
+    view.style.zoom = '';
+    var scale = 1;
+    while (scale > 0.4 &&
+           (view.scrollHeight > view.clientHeight + 1 || view.scrollWidth > view.clientWidth + 1)) {
+      scale = Math.round((scale - 0.04) * 100) / 100;
+      view.style.zoom = scale;
+    }
+  }
+
+  window.addEventListener('resize', fit);
+  document.addEventListener('fullscreenchange', fit);
+  // Schriften laden nach; mit der endgültigen Schrift noch einmal prüfen
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
 
   // -------------------------------------------------------------------------
   // Start: Ein Klick schaltet Ton und Video für diese Sitzung frei
