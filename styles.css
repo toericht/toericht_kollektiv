@@ -756,6 +756,13 @@ footer {
   animation: float-event 17s ease-in-out infinite -4s;
 }
 
+.event-lockup-wide {
+  width: min(78vw, 400px);
+  margin-bottom: 0;
+  animation: none;
+  transform: none;
+}
+
 .event-art {
   display: block;
   width: 100%;
