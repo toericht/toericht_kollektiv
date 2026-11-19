@@ -1004,6 +1004,8 @@ function villageCanWin(start){
 }
 function winNote(ph){
   const g=G();if(!S.reveal)return '';
+  // Solange noch Rollen fehlen (z. B. Werwölfe in Nacht 1 noch nicht angetippt), lässt sich nichts sagen
+  if(openRoles()>0)return '';
   const alive=g.p.map((_,i)=>i).filter(i=>!g.p[i].dead),W=alive.filter(isWolf).length,V=alive.length-W;
   const lov=g.lovers.length===2&&g.lovers.every(i=>!g.p[i].dead)?g.lovers:[];
   const mixedL=lov.length&&lov.some(isWolf)&&!lov.every(isWolf);
