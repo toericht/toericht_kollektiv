@@ -318,6 +318,7 @@ const T={
   missLovers:['Lovers not chosen.','Die Verliebten fehlen noch.'],missModel:['No role model chosen.','Kein Vorbild ausgewählt.'],
   missAssign:['{a}: not assigned yet.','{a}: noch nicht zugewiesen.'],missVote:['Nobody was banished today.','Heute wurde niemand verbannt.'],
   goAnyway:['continue anyway','trotzdem weiter'],
+  duskOne:['The village falls asleep – everyone close your eyes.','Das Dorf schläft ein – alle schließen die Augen.'],
   duskHint:['Everyone, close your eyes.','Alle schließen die Augen.'],
   alive:['alive','lebt'],dead:['dead','tot'],aliveN:['{a} alive','{a} lebendig'],deadN:['{a} dead','{a} tot'],
   notAssigned:['not assigned yet','noch nicht vergeben'],assignedN:['{a} of {b} assigned','{a} von {b} vergeben'],
@@ -1020,6 +1021,14 @@ function winNote(ph){
   if(villageCanWin(st))return '';
   return `<div class="alert death">🐺 ${t('villageLost')}<div class="hint" style="margin:4px 0 0">${t('wolfCount',{a:W,b:V})}${mixedL?' · ❤️ '+t('loversTeam'):''}</div></div>`;
 }
+/* Immer nur ein Satz zum Vorlesen (Platz sparen):
+   Nacht 1, Rolle noch nicht angetippt -> "… wacht auf."; danach bzw. ab Nacht 2 -> der Auftrag. Tote Rolle -> nur Aufwachen. */
+function sayNow(st,dead){
+  const g=G(),need=S.counts[st]||0;
+  const unassigned=g.night===1&&need&&!NO_ASSIGN.includes(st)&&assignedCount(st)<need;
+  if(dead||unassigned)return wake(st);
+  return askLine(st)||wake(st);
+}
 function vPanel(){
   const g=G();
   if(ui.drag)return shell(`<div class="ann"><div class="ai">↔️</div><h2>${t('dragSeats')}</h2></div>`,
@@ -1035,7 +1044,7 @@ function vPanel(){
     body=`<div class="hint">${t('anchorsText')}</div><div class="row"><button class="outline" data-a="dragOn">↔️ ${t('dragSeats')}</button></div>`;
     ms=[]; // Hinweis oben reicht, kein Modus-Knopf nötig
   }else if(st==='dusk'){
-    ann=`<div class="phasebar">🌙 ${esc(phaseLabel())}</div><div class="ann"><div class="ai">🌙</div>${sayBlock([t('dusk'),t('duskHint')])}</div>`;
+    ann=`<div class="phasebar">🌙 ${esc(phaseLabel())}</div><div class="ann"><div class="ai">🌙</div>${sayBlock([t('duskOne')])}</div>`;
     body=winNote('night');
   }else if(st==='resolve'){
     const r=computeNight(),nD=r.deaths.length;
@@ -1047,7 +1056,7 @@ function vPanel(){
     ms=[];
   }else{
     const dead=roleDead(st);
-    ann=`<div class="ann ${dead?'dead':''}"><div class="ai">${ico(st)}</div>${sayBlock([wake(st),askLine(st)])}</div>`;
+    ann=`<div class="ann ${dead?'dead':''}"><div class="ai">${ico(st)}</div>${sayBlock([sayNow(st,dead)])}</div>`;
     // Kein Status-Satz mehr ("hexe — lebt"): tot sieht man an der durchgestrichenen Ansage + Hinweis, alles andere auf der Karte.
     body='';
     sleep=`<div class="sleep"><small>${t('say')}</small><span>${esc(qt(wake(st,true)))}</span></div>`;
