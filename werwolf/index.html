@@ -230,18 +230,21 @@ const ROLES={
     den:'One healing and one poison potion, once each.',dde:'Ein Heil- und ein Gifttrank, je einmal.'},
   seer:{i:'🔮',en:'Seer',de:'Seherin',
     den:'Each night sees if one player is good or a Werewolf.',dde:'Sieht jede Nacht, ob eine Person gut oder Werwolf ist.'},
+  sisters:{i:'👭',en:'Sister',de:'Schwester',pen:'Two Sisters',pde:'Zwei Schwestern',
+    den:'Two cards. Villagers who know each other from the first night.',dde:'Zwei Karten. Dorfbewohnerinnen, die sich ab der ersten Nacht kennen.'},
   slut:{i:'💋',en:'Slut',de:'Dirne',
     den:'Visits someone at night. Dies too if the Werewolves attack her host.',dde:'Besucht nachts jemanden. Stirbt mit, wenn die Werwölfe den Gastgeber angreifen.'},
   mayor:{i:'👑',en:'Mayor',de:'Bürgermeister',
     den:'Elected by the village. Vote counts double.',dde:'Vom Dorf gewählt. Stimme zählt doppelt.'}
 };
-const SETUP_ROLES=['werewolf','seer','witch','cupid','hunter','fox','wildchild','angel','slut'];
-const ASSIGNABLE=['villager','werewolf','seer','witch','cupid','hunter','fox','wildchild','angel','slut'];
-const FIRST=['angel','cupid','lovers','wildchild','slut','werewolf','seer','fox','witch'];
+const SETUP_ROLES=['werewolf','seer','witch','cupid','hunter','fox','wildchild','angel','slut','sisters'];
+const ASSIGNABLE=['villager','werewolf','seer','witch','cupid','hunter','fox','wildchild','angel','slut','sisters'];
+const FIRST=['angel','cupid','lovers','wildchild','sisters','slut','werewolf','seer','fox','witch'];
 const LATER=['slut','werewolf','seer','fox','witch'];
 /* Was die Spielleitung pro Rolle fragt (nach der Aufwach-Ansage) */
 const ASK={
   angel:['Angel, open your eyes so I know who you are.','Engel, öffne die Augen, damit ich weiß, wer du bist.'],
+  sisters:['Sisters, open your eyes and recognise each other.','Schwestern, öffnet die Augen und erkennt euch.'],
   cupid:['Cupid, point at the two players who fall in love.','Amor, zeig auf die zwei Personen, die sich verlieben.'],
   lovers:['Lovers, open your eyes and recognise each other.','Liebende, öffnet die Augen und erkennt euch.'],
   wildchild:['Wild Child, point at your role model.','Wildes Kind, zeig auf dein Vorbild.'],
@@ -264,6 +267,7 @@ function askLine(st){
 }
 const WAKE={
   angel:['The Angel wakes up.','Der Engel wacht auf.','The Angel goes back to sleep.','Der Engel schläft wieder ein.'],
+  sisters:['The Sisters wake up.','Die Schwestern wachen auf.','The Sisters go back to sleep.','Die Schwestern schlafen wieder ein.'],
   cupid:['Cupid wakes up.','Amor wacht auf.','Cupid goes back to sleep.','Amor schläft wieder ein.'],
   lovers:['The Lovers wake up.','Die Liebenden wachen auf.','The Lovers go back to sleep.','Die Liebenden schlafen wieder ein.'],
   wildchild:['The Wild Child wakes up.','Das wilde Kind wacht auf.','The Wild Child goes back to sleep.','Das wilde Kind schläft wieder ein.'],
@@ -500,7 +504,9 @@ function roleAlive(r){const h=holders(r);return h.length===0||h.some(i=>!G().p[i
 function roleDead(r){const h=holders(r);return h.length>0&&h.every(i=>G().p[i].dead)}
 function slutIdx(){return G().p.findIndex(p=>p.role==='slut'&&!p.dead)}
 function slutAway(){const g=G(),s=slutIdx();return s>=0&&g.visit!=null&&g.visit!==s}
-function openRoles(){let c=0;for(const r of SETUP_ROLES)c+=Math.max(0,(S.counts[r]||0)-assignedCount(r));return c}
+// Schwestern wissen selbst voneinander – die Spielleitung muss sie nicht zuweisen
+const NO_ASSIGN=['sisters'];
+function openRoles(){let c=0;for(const r of SETUP_ROLES.filter(r=>!NO_ASSIGN.includes(r)))c+=Math.max(0,(S.counts[r]||0)-assignedCount(r));return c}
 function foxGroup(c){const n=G().p.length;return [(c-1+n)%n,c,(c+1)%n]}
 function foxHit(c){return foxGroup(c).some(i=>!G().p[i].dead&&isWolf(i))}
 function plabel(i){
@@ -511,7 +517,7 @@ function plabel(i){
 }
 function modes(st){
   const n1=G().night===1;
-  const m={anchors:['anchor'],dusk:[],angel:['as:angel'],cupid:n1?['as:cupid','lovers']:[],lovers:['lovers'],
+  const m={anchors:['anchor'],dusk:[],angel:['as:angel'],sisters:[],cupid:n1?['as:cupid','lovers']:[],lovers:['lovers'],
     wildchild:['as:wildchild','model'],slut:n1?['as:slut','visit']:['visit'],werewolf:n1?['as:werewolf','wolf']:['wolf'],
     seer:n1?['as:seer','seer']:['seer'],fox:n1?['as:fox','fox']:['fox'],witch:n1?['as:witch','poison']:['poison'],resolve:[]}[st]||[];
   return st==='anchors'?m:[...m,'edit'];
@@ -634,7 +640,7 @@ function missing(){
   const st=curStep(),nd=g.nd;
   if(!WAKE[st]||roleDead(st))return miss;
   const need=S.counts[st]||0;
-  if(g.night===1&&need&&assignedCount(st)<need)miss.push(t('missAssign',{a:rn(st,need>1)}));
+  if(g.night===1&&need&&!NO_ASSIGN.includes(st)&&assignedCount(st)<need)miss.push(t('missAssign',{a:rn(st,need>1)}));
   if(st==='werewolf'&&nd.wolf==null)miss.push(t('missWolf'));
   if(st==='slut'&&g.visit==null)miss.push(t('missVisit'));
   if(st==='seer'&&nd.seer==null)miss.push(t('missSeer'));
@@ -745,7 +751,7 @@ function vRoles(){
       ?`<div class="qty"><button data-a="qty" data-v="${r}" data-d="-1" aria-label="−" ${c<=1?'disabled':''}>−</button><b>${c}</b><button data-a="qty" data-v="${r}" data-d="1" aria-label="+" ${rest<=0?'disabled':''}>+</button></div>`
       :`<div class="check" aria-hidden="true">${on?'✓':''}</div>`;
     h+=`<div class="rcard ${on?'on':'off'}" ${r==='werewolf'?'':`role="button" tabindex="0" data-a="role" data-v="${r}" aria-pressed="${on}"`}>
-      <div class="ic">${R.i}</div><div class="tx"><div class="nm">${rn(r)}</div><div class="ds">${rd(r)}</div></div>${right}</div>`;
+      <div class="ic">${R.i}</div><div class="tx"><div class="nm">${rn(r,r==="sisters")}</div><div class="ds">${rd(r)}</div></div>${right}</div>`;
   }
   h+=`</div><div class="subhead">${t('statusRel')}</div><div class="rlist">
     <div class="rcard info"><div class="ic">🏠</div><div class="tx"><div class="nm">${rn('villager')} × ${Math.max(0,rest)}</div><div class="ds">${t('autoRest')}</div></div></div>
@@ -1031,7 +1037,7 @@ function vPanel(){
     sleep=`<div class="sleep"><small>${t('say')}</small><span>${esc(qt(wake(st,true)))}</span></div>`;
     if(dead&&st!=='lovers'){body+=`<div class="hint">${t('deadCall')}</div>`;ms=[]}
     else switch(st){
-      case 'angel':break;
+      case 'angel':case 'sisters':break;
       case 'cupid':
         if(g.lovers.length===2)body+=`<div class="alert good">❤️ ${esc(t('loversAre',{a:plabel(g.lovers[0]),b:plabel(g.lovers[1])}))}</div>`;break;
       case 'lovers':
@@ -1228,7 +1234,7 @@ const A={
   lang:d=>{S.lang=d.v;S.screen='count';save();render()},
   go:d=>{S.screen=d.v;save();render()},
   cnt:d=>{S.n=Math.max(5,Math.min(99,S.n+ +d.v));preset(S);save();render()},
-  role:d=>{const r=d.v;if(S.counts[r]>0)S.counts[r]=0;else{if(totalCards()>=S.n)return toast(t('noRoom'));S.counts[r]=1}save();render()},
+  role:d=>{const r=d.v,k=r==='sisters'?2:1;if(S.counts[r]>0)S.counts[r]=0;else{if(totalCards()+k>S.n)return toast(t('noRoom'));S.counts[r]=k}save();render()},
   qty:d=>{const r=d.v,dd=+d.d;if(dd>0&&totalCards()>=S.n)return toast(t('noRoom'));S.counts[r]=Math.max(1,(S.counts[r]||0)+dd);save();render()},
   start:()=>{if(totalCards()>S.n)return toast(t('tooMany'));H=[];newGame();S.screen='game';save();render()},
   resume:()=>{S.screen='game';save();render()},
