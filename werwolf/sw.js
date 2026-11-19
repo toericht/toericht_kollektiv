@@ -9,14 +9,15 @@
  * Updates: index.html wird bei Netz immer frisch geladen (max. 3 s Wartezeit), Änderungen
  * kommen also von selbst an. Nur wenn Icons oder manifest.json geändert werden: VERSION hochzählen.
  */
-const VERSION = 'v1';
+const VERSION = 'v2';
 const CACHE = 'wwc-app-' + VERSION;
 const ASSETS = [
   './',
   'manifest.json',
   'icon-192.png',
   'icon-512.png',
-  'apple-touch-icon.png'
+  'apple-touch-icon.png',
+  ...['villager','werewolf','angel','cupid','hunter','fox','wildchild','witch','seer','slut','sisters','mayor'].map((r) => 'icons/' + r + '.png')
 ];
 
 self.addEventListener('install', (e) => {

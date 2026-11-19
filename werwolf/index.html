@@ -44,7 +44,7 @@ button,.pill,.nm,.phase,.lab,.sec,.sum,.vrow b,.big-result b,.sheet h3,.hd .info
 .by{display:inline-block;margin-top:14px;color:var(--acid);font-weight:800;font-size:22px;transform:rotate(-6deg);text-transform:lowercase}
 .stack{display:flex;flex-direction:column;gap:18px}
 .big-btn{padding:26px 20px;border:3px solid var(--acid);border-radius:999px;color:var(--acid);font-weight:800;font-size:26px;letter-spacing:.08em;transition:background .15s,color .15s}
-.big-btn:nth-child(1){transform:rotate(-2deg)}.big-btn:nth-child(2){transform:rotate(1.5deg)}
+
 .big-btn:hover,.big-btn:active{background:var(--acid);color:var(--black)}
 .primary{padding:16px 30px;border-radius:999px;background:var(--acid);color:var(--black);font-weight:800;font-size:19px;text-transform:lowercase;transition:background .15s}
 .primary:hover{background:var(--lilac)}
@@ -59,7 +59,7 @@ button,.pill,.nm,.phase,.lab,.sec,.sum,.vrow b,.big-result b,.sheet h3,.hd .info
 .counter{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:8px}
 .round{width:64px;height:64px;border-radius:50%;border:3px solid var(--acid);color:var(--acid);font-size:34px;font-weight:800;line-height:1}
 .round:active{background:var(--acid);color:var(--black)}
-#ncount{width:130px;background:none;border:0;border-bottom:2px solid var(--line);color:var(--white);font:inherit;font-weight:800;font-size:72px;text-align:center;-moz-appearance:textfield}
+#ncount{box-sizing:content-box;width:2.4ch;min-width:120px;height:1.2em;padding:6px 4px;margin:0;background:none;border:0;border-bottom:2px solid var(--line);border-radius:0;color:var(--white);font-family:var(--text);font-weight:800;font-size:72px;line-height:1.2;text-align:center;font-variant-numeric:tabular-nums;overflow:visible;-webkit-appearance:none;appearance:none;-moz-appearance:textfield}
 #ncount::-webkit-outer-spin-button,#ncount::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .mini{display:flex;justify-content:center;flex:1;min-height:150px;align-items:center}
 .mini svg{width:min(62vw,240px);height:auto}
@@ -71,6 +71,9 @@ button,.pill,.nm,.phase,.lab,.sec,.sum,.vrow b,.big-result b,.sheet h3,.hd .info
 .rcard.on{border-color:var(--acid)}
 .rcard.off{opacity:.42;filter:grayscale(1)}
 .rcard.info{border-style:dashed;cursor:default}
+.ri{display:inline-block;width:1.15em;height:1.15em;object-fit:contain;vertical-align:middle;-webkit-user-drag:none;user-select:none}
+/* Dorfbewohner-Icon ist schwarz: leichter heller Rand, damit es auf dunklem Grund sichtbar bleibt */
+.ri-villager{filter:drop-shadow(0 0 1px rgba(255,255,255,.85)) drop-shadow(0 0 1px rgba(255,255,255,.5))}
 .rcard .ic{font-size:34px;flex:none;width:44px;text-align:center}
 .rcard .tx{flex:1;min-width:0}
 .rcard .nm{font-weight:800;font-size:19px;text-transform:lowercase}
@@ -237,6 +240,15 @@ const ROLES={
   mayor:{i:'👑',en:'Mayor',de:'Bürgermeister',
     den:'Elected by the village. Vote counts double.',dde:'Vom Dorf gewählt. Stimme zählt doppelt.'}
 };
+/* gezeichnete Rollen-Icons (werwolf/icons). Ohne Icon (z. B. Liebende) bleibt das Emoji. */
+const ICON={villager:1,werewolf:1,angel:1,cupid:1,hunter:1,fox:1,wildchild:1,witch:1,seer:1,slut:1,sisters:1,mayor:1};
+const iconSrc=r=>ICON[r]?'icons/'+r+'.png':'';
+function ico(r){return ICON[r]?`<img class="ri ri-${r}" src="${iconSrc(r)}" alt="" draggable="false">`:(ROLES[r]?ROLES[r].i:'')}
+// Icon im SVG der Karte (cx/cy = Mitte, sz = Kantenlänge)
+function svgIco(r,cx,cy,sz,fallbackFs){
+  if(!ICON[r])return `<text x="${cx}" y="${cy}" font-size="${fallbackFs||sz}" text-anchor="middle" dominant-baseline="central">${ROLES[r]?ROLES[r].i:r}</text>`;
+  return `<image ${r==='villager'?'filter="url(#vglow)"':''} href="${iconSrc(r)}" x="${(cx-sz/2).toFixed(1)}" y="${(cy-sz/2).toFixed(1)}" width="${sz.toFixed(1)}" height="${sz.toFixed(1)}" preserveAspectRatio="xMidYMid meet"/>`;
+}
 const SETUP_ROLES=['werewolf','seer','witch','cupid','hunter','fox','wildchild','angel','slut','sisters'];
 const ASSIGNABLE=['villager','werewolf','seer','witch','cupid','hunter','fox','wildchild','angel','slut','sisters'];
 const FIRST=['angel','cupid','lovers','wildchild','sisters','slut','werewolf','seer','fox','witch'];
@@ -513,7 +525,7 @@ function plabel(i){
   const g=G(),p=g.p[i];
   const note=p.note?'📌 '+p.note:'';
   if(!S.reveal&&!ui.sheet)return note||t('marked');
-  return ROLES[p.role].i+' '+rn(p.role)+(note?' · '+note:'');
+  return rn(p.role)+(note?' · '+note:'');
 }
 function modes(st){
   const n1=G().night===1;
@@ -751,12 +763,12 @@ function vRoles(){
       ?`<div class="qty"><button data-a="qty" data-v="${r}" data-d="-1" aria-label="−" ${c<=1?'disabled':''}>−</button><b>${c}</b><button data-a="qty" data-v="${r}" data-d="1" aria-label="+" ${rest<=0?'disabled':''}>+</button></div>`
       :`<div class="check" aria-hidden="true">${on?'✓':''}</div>`;
     h+=`<div class="rcard ${on?'on':'off'}" ${r==='werewolf'?'':`role="button" tabindex="0" data-a="role" data-v="${r}" aria-pressed="${on}"`}>
-      <div class="ic">${R.i}</div><div class="tx"><div class="nm">${rn(r,r==="sisters")}</div><div class="ds">${rd(r)}</div></div>${right}</div>`;
+      <div class="ic">${ico(r)}</div><div class="tx"><div class="nm">${rn(r,r==="sisters")}</div><div class="ds">${rd(r)}</div></div>${right}</div>`;
   }
   h+=`</div><div class="subhead">${t('statusRel')}</div><div class="rlist">
     <div class="rcard info"><div class="ic">🏠</div><div class="tx"><div class="nm">${rn('villager')} × ${Math.max(0,rest)}</div><div class="ds">${t('autoRest')}</div></div></div>
     <div class="rcard info ${act('cupid')?'':'off'}"><div class="ic">❤️</div><div class="tx"><div class="nm">${rn('lovers')}</div><div class="ds">${rd('lovers')}</div></div></div>
-    <div class="rcard info"><div class="ic">👑</div><div class="tx"><div class="nm">${rn('mayor')}</div><div class="ds">${rd('mayor')}</div></div></div>
+    <div class="rcard info"><div class="ic">${ico('mayor')}</div><div class="tx"><div class="nm">${rn('mayor')}</div><div class="ds">${rd('mayor')}</div></div></div>
   </div>
   <button class="primary wide" data-a="start" ${rest<0?'disabled':''} style="margin-top:8px">${t('startNight')} 🌙</button></div>`;
   return h;
@@ -812,7 +824,9 @@ function vMap(){
   if(rev&&st==='wildchild'&&g.model!=null){const w=g.p.findIndex(p=>p.role==='wildchild');if(w>=0){const [a,b]=[pos(w),pos(g.model)];lines+=`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#fff" stroke-width="1.2" stroke-dasharray="2 5" opacity=".35"/>`}}
   // Rollennamen nur, wenn sie auf dem Bildschirm mindestens ~9 px groß wären
   const showLabel=r>=26&&r*M.k>=27,fs=Math.max(8,r*.33),is=showLabel?r*.95:r*1.22;
-  const badge=(x,y,txt,bg)=>`<g><circle cx="${x}" cy="${y}" r="${Math.max(7,r*.36)}" fill="${bg||'#000'}" stroke="#000" stroke-width="1.5"/><text x="${x}" y="${y}" font-size="${Math.max(8,r*.42)}" text-anchor="middle" dominant-baseline="central">${txt}</text></g>`;
+  const BADGE_ICON={'👑':'mayor','🐺':'werewolf','👁':'seer'};
+  const badge=(x,y,txt,bg)=>{const br=Math.max(7,r*.36),ic=BADGE_ICON[txt];
+    return `<g><circle cx="${x}" cy="${y}" r="${br}" fill="${bg||'#000'}" stroke="#000" stroke-width="1.5"/>${ic?svgIco(ic,x,y,br*1.6):`<text x="${x}" y="${y}" font-size="${Math.max(8,r*.42)}" text-anchor="middle" dominant-baseline="central">${txt}</text>`}</g>`};
   // center
   // Nur das Symbol in der Mitte – der Text steht schon als Ansage im Panel
   let ci='',cl='';
@@ -821,7 +835,7 @@ function vMap(){
   else if(st==='dusk'){ci='🌙'}
   else if(st==='resolve'){ci='🕯'}
   else if(st){ci=ROLES[st].i}
-  const center=`<text x="${cx}" y="${cl?cy-12:cy}" text-anchor="middle" font-size="40" dominant-baseline="central">${ci}</text>
+  const center=(st&&ICON[st]&&!['anchors','dusk','resolve'].includes(st)&&g.phase!=='day'?svgIco(st,cx,cl?cy-12:cy,56):`<text x="${cx}" y="${cl?cy-12:cy}" text-anchor="middle" font-size="40" dominant-baseline="central">${ci}</text>`)+`
     ${cl?`<text x="${cx}" y="${cy+30}" text-anchor="middle" fill="#f6ff96" font-size="15" font-weight="800" dominant-baseline="central">${esc(cl.toLowerCase())}</text>`:''}`;
   // Platz, den Anker-Notizen nicht überdecken dürfen: Mitte + alle Sitze
   const taken=[];
@@ -844,7 +858,7 @@ function vMap(){
     const stroke=p.note?'rgba(255,255,255,.7)':'rgba(255,255,255,.3)';
     let inner=`<circle class="base" cx="${x}" cy="${y}" r="${r}" fill="${p.dead?'#080808':'#121212'}" stroke="${stroke}" stroke-width="${p.note?2:1.5}" ${away?'stroke-dasharray="3 3"':''}/>
       <g opacity="${p.dead?.3:away?.55:1}" ${p.dead?'style="filter:grayscale(1)"':''}>
-      <text x="${x}" y="${showLabel?y-r*.14:y+r*.04}" font-size="${is}" text-anchor="middle" dominant-baseline="central">${ROLES[role].i}</text>
+      ${svgIco(role,x,showLabel?y-r*.16:y+r*.02,is*(showLabel?1.05:1.1),is)}
       ${showLabel?`<text x="${x}" y="${y+r*.62}" font-size="${fs}" font-weight="800" text-anchor="middle" fill="#fff" dominant-baseline="central" ${name.length*fs*.58>r*1.8?`textLength="${(r*1.8).toFixed(1)}" lengthAdjust="spacingAndGlyphs"`:''}>${esc(name.toLowerCase())}</text>`:''}</g>`;
     if(p.dead){const k=r*.62;inner+=`<g stroke="#ff4b35" stroke-width="${Math.max(2.5,r*.11)}" stroke-linecap="round" opacity=".9"><line x1="${x-k}" y1="${y-k}" x2="${x+k}" y2="${y+k}"/><line x1="${x+k}" y1="${y-k}" x2="${x-k}" y2="${y+k}"/></g>`}
     // badges
@@ -876,7 +890,7 @@ function vMap(){
     const dim=st==='resolve'&&pend.size&&!pend.has(i);
     seats+=`<g class="seat" data-i="${i}" role="button" tabindex="0" aria-label="${aria}" ${dim?'opacity=".3"':''}><title>${esc(name)}${p.note?' · '+esc(p.note):''}</title>${ring}${inner}${b}</g>`;
   }
-  return `<svg viewBox="0 0 ${M.VW.toFixed(1)} ${M.VH.toFixed(1)}" role="group" aria-label="village">${lines}<g pointer-events="none">${center}</g>${seats}${notes}</svg>`;
+  return `<svg viewBox="0 0 ${M.VW.toFixed(1)} ${M.VH.toFixed(1)}" role="group" aria-label="village"><defs><filter id="vglow" x="-20%" y="-20%" width="140%" height="140%"><feMorphology in="SourceAlpha" operator="dilate" radius="1.2" result="d"/><feFlood flood-color="#fff" flood-opacity=".8"/><feComposite in2="d" operator="in" result="o"/><feMerge><feMergeNode in="o"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>${lines}<g pointer-events="none">${center}</g>${seats}${notes}</svg>`;
 }
 
 /* ---------- panel ---------- */
@@ -898,11 +912,11 @@ function nav(opts,cue){
 }
 function statusLine(r){
   const g=G(),h=holders(r);
-  if(!h.length)return `<div class="stat">${ROLES[r].i} ${rn(r)} — ${g.night===1&&r!=='lovers'?t('notAssigned'):'—'}</div>`;
+  if(!h.length)return `<div class="stat">${ico(r)} ${rn(r)} — ${g.night===1&&r!=='lovers'?t('notAssigned'):'—'}</div>`;
   if(r==='werewolf'||r==='lovers'){const a=h.filter(i=>!g.p[i].dead).length,d=h.length-a;
-    return `<div class="stat">${ROLES[r].i} ${rn(r,true)} — <span class="l">${t('aliveN',{a})}</span>${d?` · <span class="d">${t('deadN',{a:d})} ✕</span>`:''}</div>`}
+    return `<div class="stat">${ico(r)} ${rn(r,true)} — <span class="l">${t('aliveN',{a})}</span>${d?` · <span class="d">${t('deadN',{a:d})} ✕</span>`:''}</div>`}
   const dead=h.every(i=>g.p[i].dead);
-  return `<div class="stat">${ROLES[r].i} ${rn(r)} — ${dead?`<span class="d">${t('dead')} ✕</span>`:`<span class="l">${t('alive')}</span>`}${g.night===1?` · ${t('assignedN',{a:assignedCount(r),b:S.counts[r]})}`:''}</div>`;
+  return `<div class="stat">${ico(r)} ${rn(r)} — ${dead?`<span class="d">${t('dead')} ✕</span>`:`<span class="l">${t('alive')}</span>`}${g.night===1?` · ${t('assignedN',{a:assignedCount(r),b:S.counts[r]})}`:''}</div>`;
 }
 let resolveHasDeaths=false;
 /* Eine Tod-Zeile: groß wer (Rolle + Merkmal), klein warum */
@@ -910,7 +924,7 @@ function deathRow(i,why){
   const p=G().p[i],note=p.note?'📌 '+p.note:'';
   const main=S.reveal?rn(p.role):(note||t('marked'));
   const sub=S.reveal?note:'';
-  return `<div class="vrow"><span class="vi">${S.reveal?ROLES[p.role].i:'✕'}</span><div class="vt"><b>${esc(main)}</b>${sub?`<span class="vn">${esc(sub)}</span>`:''}</div>${why?`<small>${esc(why)}</small>`:''}</div>`;
+  return `<div class="vrow"><span class="vi">${S.reveal?ico(p.role):'✕'}</span><div class="vt"><b>${esc(main)}</b>${sub?`<span class="vn">${esc(sub)}</span>`:''}</div>${why?`<small>${esc(why)}</small>`:''}</div>`;
 }
 /* Kann das Dorf rechnerisch noch gewinnen? (nur mit offenen Rollen)
    Spielt alle Verläufe durch: Dorf stimmt bestmöglich ab, Gegner spielen bestmöglich gegen das Dorf,
@@ -1031,7 +1045,7 @@ function vPanel(){
     ms=[];
   }else{
     const dead=roleDead(st);
-    ann=`<div class="ann ${dead?'dead':''}"><div class="ai">${ROLES[st].i}</div>${sayBlock([wake(st),askLine(st)])}</div>`;
+    ann=`<div class="ann ${dead?'dead':''}"><div class="ai">${ico(st)}</div>${sayBlock([wake(st),askLine(st)])}</div>`;
     // Kein Status-Satz mehr ("hexe — lebt"): tot sieht man an der durchgestrichenen Ansage + Hinweis, alles andere auf der Karte.
     body='';
     sleep=`<div class="sleep"><small>${t('say')}</small><span>${esc(qt(wake(st,true)))}</span></div>`;
@@ -1106,7 +1120,7 @@ function vQueue(){
     body=q.target!=null?`<div class="alert death">🎯 ${esc(t('shootAt',{a:plabel(q.target)}))}</div>`:`<div class="hint">${t('h_hunter')}</div>`;
     btns=`<button class="back" data-a="q" data-v="ok">${t('noShot')}</button><button class="nextb red" data-a="q" data-v="shoot" ${q.target==null?'disabled':''}>${t('shoot')}</button>`;
   }else if(q.k==='mayor'){
-    ann=`<div class="ann"><div class="ai">👑</div>${sayBlock([t('sayMayorDead')])}</div>`;
+    ann=`<div class="ann"><div class="ai">${ico('mayor')}</div>${sayBlock([t('sayMayorDead')])}</div>`;
     body=`<div class="hint">${t('h_mayor')}</div>`;
     btns=`<button class="back" data-a="q" data-v="ok">${t('later')}</button>`;
   }
@@ -1129,7 +1143,7 @@ function vDay(){
   }
   // Runde 1 des Tages: Bürgermeisterwahl (solange keiner lebt). Hier wird noch nicht eingeschlafen.
   if(nm){
-    const ann=`<div class="ann"><div class="ai">👑</div><div style="flex:1;min-width:0"><div class="sec" style="margin:0 0 6px">${t('mayorRound')}</div>${sayBlock([g.p.some(p=>p.wasMayor)?t('sayMayorDead'):t('sayMayor')])}</div></div>`;
+    const ann=`<div class="ann"><div class="ai">${ico('mayor')}</div><div style="flex:1;min-width:0"><div class="sec" style="margin:0 0 6px">${t('mayorRound')}</div>${sayBlock([g.p.some(p=>p.wasMayor)?t('sayMayorDead'):t('sayMayor')])}</div></div>`;
     return shell(ann,body+`<div class="hint">${t('h_mayor')}</div>`,nav(`<button class="ghost" data-a="skipMayor">${t('skipMayor')}</button>`),true);
   }
   // Runde 2: Abstimmung des Dorfs. Verbannen ist Normalfall: nur Auswahl + ein roter Bestätigen-Knopf
@@ -1137,7 +1151,7 @@ function vDay(){
   else if(g.cond!=null)body+=`<div class="alert">⚖️ ${esc(plabel(g.cond))}</div>
       <div class="row"><button class="back" data-a="uncond">${t('cancel')}</button><button class="nextb red" data-a="condemn">${t('condemn')}</button></div>`;
   else if(!(g.today||[]).some(i=>g.p[i].cause==='vote'))body+=`<div class="hint">${t('h_cond')}</div>`;
-  body+=`<div class="chips"><button class="chip ${cur==='mayor'?'on':''}" data-a="mode" data-v="mayor" aria-pressed="${cur==='mayor'}">👑 ${t('m_mayor')}</button></div>`;
+  body+=`<div class="chips"><button class="chip ${cur==='mayor'?'on':''}" data-a="mode" data-v="mayor" aria-pressed="${cur==='mayor'}">${ico('mayor')} ${t('m_mayor')}</button></div>`;
   const voted=(g.today||[]).some(i=>g.p[i].cause==='vote');
   // Morgen wurde schon auf eigener Seite angesagt (außer bei alten Spielständen ohne g.today)
   const ann=`<div class="ann"><div class="ai">⚖️</div>${sayBlock([...(g.today?[]:morning),voted?'':t('sayVote')])}</div>`;
@@ -1201,17 +1215,17 @@ function renderLayer(){
     if(g.visit===i&&slutAway())rels.push('💋 '+t('relVisited'));
     const causes=['wolf','poison','vote','hunter','heartbreak','slutVisit','manual'];
     L.innerHTML=`<div class="layer" data-a="closeLayer"><div class="sheet" role="dialog" aria-modal="true">
-      <div class="phead"><span class="bi">${ROLES[p.role].i}</span><div style="flex:1"><h3>${rn(p.role)}${p.mayor?' 👑':''}</h3>
+      <div class="phead"><span class="bi">${ico(p.role)}</span><div style="flex:1"><h3>${rn(p.role)}${p.mayor?' '+ico('mayor'):''}</h3>
         <div class="stat">${p.dead?`<span class="d">${t('dead')} ✕</span>`:`<span class="l">${t('alive')}</span>`}${p.orig?' · '+t('orig',{a:rn(p.orig)}):''}</div></div>
         <button class="ghost" data-a="closeLayer">${t('done')}</button></div>
       <div><div class="lab">${t('noteLab')}</div><input class="note" id="noteIn" maxlength="40" value="${esc(p.note)}" placeholder="${esc(t('notePh'))}" enterkeyhint="done"></div>
       <div class="row">
         <button class="${p.dead?'outline':'danger'}" data-a="sDead">${p.dead?'↺ '+t('revive'):'✕ '+t('markDead')}</button>
-        ${p.dead?'':`<button class="chip" data-a="sMayor">👑 ${p.mayor?t('mayorOff'):t('mayorOn')}</button>`}
+        ${p.dead?'':`<button class="chip" data-a="sMayor">${ico('mayor')} ${p.mayor?t('mayorOff'):t('mayorOn')}</button>`}
       </div>
       ${p.dead?`<div><div class="lab">${t('cause')}</div><div class="chips">${causes.map(c=>`<button class="chip lil ${p.cause===c?'on':''}" data-a="sCause" data-v="${c}">${t('c_'+c)}</button>`).join('')}</div></div>`:''}
       ${rels.length?`<div><div class="lab">${t('rel')}</div>${rels.map(r=>`<div class="stat">${esc(r)}</div>`).join('')}</div>`:''}
-      <div><div class="lab">${t('roleLab')}</div><div class="rgrid">${ASSIGNABLE.filter(r=>r==='villager'||r===p.role||(S.counts[r]||0)>0).map(r=>{const full=r!==p.role&&roleFull(r);return `<button class="rbtn ${p.role===r?'on':''} ${full?'full':''}" data-a="sRole" data-v="${r}" ${full?'aria-disabled="true"':''}><span>${ROLES[r].i}</span>${rn(r)}${full?`<small>${t('taken')}</small>`:''}</button>`}).join('')}</div></div>
+      <div><div class="lab">${t('roleLab')}</div><div class="rgrid">${ASSIGNABLE.filter(r=>r==='villager'||r===p.role||(S.counts[r]||0)>0).map(r=>{const full=r!==p.role&&roleFull(r);return `<button class="rbtn ${p.role===r?'on':''} ${full?'full':''}" data-a="sRole" data-v="${r}" ${full?'aria-disabled="true"':''}><span>${ico(r)}</span>${rn(r)}${full?`<small>${t('taken')}</small>`:''}</button>`}).join('')}</div></div>
       <div><div class="lab">${t('ability')}</div><div class="hint">${rd(p.role)}</div></div>
     </div></div>`;
     const inp=document.getElementById('noteIn');
