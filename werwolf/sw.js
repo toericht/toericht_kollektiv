@@ -9,7 +9,7 @@
  * Updates: index.html wird bei Netz immer frisch geladen (max. 3 s Wartezeit), Änderungen
  * kommen also von selbst an. Nur wenn Icons oder manifest.json geändert werden: VERSION hochzählen.
  */
-const VERSION = 'v2';
+const VERSION = 'v3';
 const CACHE = 'wwc-app-' + VERSION;
 const ASSETS = [
   './',

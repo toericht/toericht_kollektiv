@@ -72,8 +72,6 @@ button,.pill,.nm,.phase,.lab,.sec,.sum,.vrow b,.big-result b,.sheet h3,.hd .info
 .rcard.off{opacity:.42;filter:grayscale(1)}
 .rcard.info{border-style:dashed;cursor:default}
 .ri{display:inline-block;width:1.15em;height:1.15em;object-fit:contain;vertical-align:middle;-webkit-user-drag:none;user-select:none}
-/* Dorfbewohner-Icon ist schwarz: leichter heller Rand, damit es auf dunklem Grund sichtbar bleibt */
-.ri-villager{filter:drop-shadow(0 0 1px rgba(255,255,255,.85)) drop-shadow(0 0 1px rgba(255,255,255,.5))}
 .rcard .ic{font-size:34px;flex:none;width:44px;text-align:center}
 .rcard .tx{flex:1;min-width:0}
 .rcard .nm{font-weight:800;font-size:19px;text-transform:lowercase}
@@ -88,17 +86,17 @@ button,.pill,.nm,.phase,.lab,.sec,.sum,.vrow b,.big-result b,.sheet h3,.hd .info
 
 /* ---------- game ---------- */
 .game{height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"hd" "map" "pn"}
-.hd{grid-area:hd;display:flex;align-items:center;gap:8px;padding:10px 12px 6px;border-bottom:1px solid var(--line)}
+.hd{grid-area:hd;display:flex;align-items:center;gap:6px;padding:4px 10px 3px;border-bottom:1px solid var(--line)}
 .hd .info{flex:1;min-width:0;font-size:13px;font-weight:700;color:var(--muted);text-transform:lowercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hd .info.ok{color:var(--white)}
-.phase{padding:6px 12px;border:2px solid var(--white);border-radius:999px;color:var(--white);font-weight:800;font-size:14px;text-transform:lowercase;white-space:nowrap;transform:rotate(-3deg)}
+.phase{padding:3px 10px;border:2px solid var(--white);border-radius:999px;color:var(--white);font-weight:800;font-size:14px;text-transform:lowercase;white-space:nowrap;transform:rotate(-3deg)}
 .phase.day{background:var(--white);border-color:var(--white);color:var(--black)}
 .phasebar{display:inline-flex;align-items:center;gap:8px;margin:0 0 12px;padding:6px 16px;border:2px solid var(--white);border-radius:999px;font-family:var(--font);font-weight:800;font-size:22px;text-transform:lowercase;color:var(--white)}
 .cmsg{margin:0;font-family:var(--text);font-weight:700;font-size:19px;line-height:1.35;white-space:pre-line}
 .phasebar.day{background:var(--white);color:var(--black)}
 .mapwrap.drag svg{touch-action:none}.mapwrap.drag .seat{cursor:grab}
-.ibtn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;flex:none}
-.ibtn svg{width:24px;height:24px}
+.ibtn{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;flex:none}
+.ibtn svg{width:20px;height:20px}
 .ibtn.on{border:2px solid var(--line);color:var(--white)}
 .ibtn.off{border:2px dashed var(--line);color:var(--muted)}
 .mapwrap{grid-area:map;position:relative;display:flex;align-items:center;justify-content:center;min-height:0;padding:4px}
@@ -107,7 +105,7 @@ button,.pill,.nm,.phase,.lab,.sec,.sum,.vrow b,.big-result b,.sheet h3,.hd .info
 .seat:focus{outline:none}
 .seat:focus-visible .base{stroke:var(--acid);stroke-width:3}
 .pn{grid-area:pn;border-top:1px solid var(--line);background:var(--black);max-height:50dvh;display:flex;flex-direction:column}
-.pn-scroll{overflow:auto;padding:4px 16px 4px;display:flex;flex-direction:column;gap:10px}
+.pn-scroll{overflow:auto;padding:2px 14px 4px;display:flex;flex-direction:column;gap:8px}
 .pn-toggle{display:flex;justify-content:center;align-items:center;width:100%;height:24px;flex:none}
 .pn-toggle span{width:46px;height:5px;border-radius:9px;background:rgba(255,255,255,.35);transition:background .15s}
 .pn-toggle:hover span{background:var(--acid)}
@@ -153,8 +151,8 @@ button,.pill,.nm,.phase,.lab,.sec,.sum,.vrow b,.big-result b,.sheet h3,.hd .info
 .hint{font-size:14px;color:var(--muted);line-height:1.35}
 .sleep{font-family:var(--text);font-size:16px;font-weight:700;color:var(--white);display:flex;align-items:baseline;gap:8px}
 .undo.backic{font-size:28px;font-weight:800;line-height:1}
-.cue{padding:8px 16px 0;border-top:1px solid var(--line)}
-.cue+.nav{border-top:0;padding-top:8px}
+.cue{padding:6px 14px 0;border-top:1px solid var(--line)}
+.cue+.nav{border-top:0;padding-top:4px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .vlist{display:flex;flex-direction:column;gap:8px}
 .vrow{display:flex;gap:12px;align-items:center;padding:10px 14px;border:2px solid var(--red);border-radius:18px}
@@ -164,13 +162,14 @@ button,.pill,.nm,.phase,.lab,.sec,.sum,.vrow b,.big-result b,.sheet h3,.hd .info
 .vrow .vn{display:block;font-size:14px;font-weight:700;color:rgba(255,255,255,.75)}
 .vrow small{flex:none;max-width:38%;text-align:right;color:var(--muted);font-size:12px;line-height:1.25;text-transform:lowercase}
 .sec{font-size:13px;font-weight:800;color:var(--muted);text-transform:lowercase}
-.nav{display:flex;gap:10px;align-items:center;padding:10px 16px 12px;border-top:1px solid var(--line)}
+.nav{display:flex;gap:8px;align-items:center;padding:6px 12px 8px;border-top:1px solid var(--line)}
 .nav .sp{flex:1}
-.undo{width:52px;height:52px;border-radius:50%;border:2px solid var(--line);color:var(--white);display:grid;place-items:center;flex:none}
+.undo{width:44px;height:44px;border-radius:50%;border:2px solid var(--line);color:var(--white);display:grid;place-items:center;flex:none}
 .undo svg{width:24px;height:24px}
 .back{padding:14px 18px;border-radius:999px;border:2px solid var(--line);font-weight:800;text-transform:lowercase}
-.nextb{padding:14px 26px;border-radius:999px;background:var(--acid);color:var(--black);font-weight:800;font-size:18px;text-transform:lowercase;min-width:132px}
+.nextb{padding:10px 22px;border-radius:999px;background:var(--acid);color:var(--black);font-weight:800;font-size:18px;text-transform:lowercase;min-width:132px}
 .nextb.red{background:var(--red)}
+.nextb.wait{background:none;color:var(--white);box-shadow:inset 0 0 0 2px var(--line)}
 @media (min-width:600px) and (orientation:landscape){
   .game{grid-template-columns:minmax(0,1fr) min(430px,48vw);grid-template-rows:auto minmax(0,1fr);grid-template-areas:"hd hd" "map pn"}
   .pn{max-height:none;border-top:0;border-left:1px solid var(--line)}
@@ -247,7 +246,7 @@ function ico(r){return ICON[r]?`<img class="ri ri-${r}" src="${iconSrc(r)}" alt=
 // Icon im SVG der Karte (cx/cy = Mitte, sz = Kantenlänge)
 function svgIco(r,cx,cy,sz,fallbackFs){
   if(!ICON[r])return `<text x="${cx}" y="${cy}" font-size="${fallbackFs||sz}" text-anchor="middle" dominant-baseline="central">${ROLES[r]?ROLES[r].i:r}</text>`;
-  return `<image ${r==='villager'?'filter="url(#vglow)"':''} href="${iconSrc(r)}" x="${(cx-sz/2).toFixed(1)}" y="${(cy-sz/2).toFixed(1)}" width="${sz.toFixed(1)}" height="${sz.toFixed(1)}" preserveAspectRatio="xMidYMid meet"/>`;
+  return `<image href="${iconSrc(r)}" x="${(cx-sz/2).toFixed(1)}" y="${(cy-sz/2).toFixed(1)}" width="${sz.toFixed(1)}" height="${sz.toFixed(1)}" preserveAspectRatio="xMidYMid meet"/>`;
 }
 const SETUP_ROLES=['werewolf','seer','witch','cupid','hunter','fox','wildchild','angel','slut','sisters'];
 const ASSIGNABLE=['villager','werewolf','seer','witch','cupid','hunter','fox','wildchild','angel','slut','sisters'];
@@ -266,7 +265,7 @@ const ASK={
   fox:['Fox, point at the middle of three seats.','Fuchs, zeig auf die Mitte von drei Plätzen.']
 };
 function qt(x){return S.lang==='en'?'“'+x+'”':'„'+x+'“'}
-function sayBlock(lines){lines=lines.filter(Boolean);if(!lines.length)return '';return `<div class="say"><small>${t('say')}</small>${lines.map((l,i)=>`<q class="${i?'q2':''}">${esc(qt(l))}</q>`).join('')}</div>`}
+function sayBlock(lines){lines=lines.filter(Boolean);if(!lines.length)return '';return `<div class="say">${lines.map((l,i)=>`<q class="${i?'q2':''}">${esc(qt(l))}</q>`).join('')}</div>`}
 function askLine(st){
   const g=G(),en=S.lang==='en';
   if(st!=='witch')return ASK[st]?ASK[st][en?0:1]:'';
@@ -319,6 +318,8 @@ const T={
   missAssign:['{a}: not assigned yet.','{a}: noch nicht zugewiesen.'],missVote:['Nobody was banished today.','Heute wurde niemand verbannt.'],
   goAnyway:['continue anyway','trotzdem weiter'],
   duskOne:['The village falls asleep – everyone close your eyes.','Das Dorf schläft ein – alle schließen die Augen.'],
+  seatsKept:['Seating and features from the last game kept.','Sitzordnung und Merkmale vom letzten Spiel übernommen.'],
+  resetSeating:['reset seating','sitzordnung zurücksetzen'],
   duskHint:['Everyone, close your eyes.','Alle schließen die Augen.'],
   alive:['alive','lebt'],dead:['dead','tot'],aliveN:['{a} alive','{a} lebendig'],deadN:['{a} dead','{a} tot'],
   notAssigned:['not assigned yet','noch nicht vergeben'],assignedN:['{a} of {b} assigned','{a} von {b} vergeben'],
@@ -333,7 +334,7 @@ const T={
   h_visit:['Tap the house. Own seat = home.','Tippe das Haus an. Eigener Platz = zu Hause.'],
   h_wolf:['Tap the victim.','Tippe das Opfer an.'],
   h_seer:['Tap who she looks at.','Tippe an, wen sie ansieht.'],
-  h_fox:['Tap the middle seat.','Tippe den mittleren Platz an.'],
+  h_fox:['Tap the seat he points at – the neighbours come along. Tap a seat to swap it.','Tippe den Platz an, auf den er zeigt – die Nachbarn kommen mit. Einzelnen Platz antippen zum Tauschen.'],
   h_poison:['Tap who gets poisoned.','Tippe an, wer vergiftet wird.'],
   h_edit:['Tap for details.','Antippen für Details.'],
   h_cond:['Tap who is banished.','Tippe an, wer verbannt wird.'],
@@ -453,6 +454,8 @@ function load(){
   if(!S||!S.counts)S=blank();
 }
 function save(){
+  // Sitzordnung/Merkmale fürs nächste Spiel am selben Tag merken
+  if(S.game)S.lastSeats={day:new Date().toDateString(),n:S.game.p.length,seats:S.game.p.map(p=>({anchor:p.anchor,note:p.note})),pos:S.game.seatPos||null};
   try{if(H.length>80)H=H.slice(-80);localStorage.setItem(KEY,JSON.stringify({S,H}))}
   catch(e){if(storageOK){storageOK=false;toast(t('noStorage'))}}
 }
@@ -463,14 +466,17 @@ function wake(r,sleep){const w=WAKE[r];return S.lang==='en'?w[sleep?2:0]:w[sleep
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function G(){return S.game}
 
-function newGame(keepSeats){
-  const n=S.n;
+function newGame(keepSeats,keepPos){
+  const n=S.n;let carried=!!(keepPos&&keepPos.length===n);
   const p=Array.from({length:n},(_,i)=>{
     const old=keepSeats&&keepSeats[i];
+    if(keepSeats)carried=carried||!!(old&&old.note);
     return {role:'villager',orig:null,dead:false,cause:null,anchor:old?old.anchor:false,note:old?old.note:'',mayor:false};
   });
   S.game={p,lovers:[],model:null,wild:false,witch:{heal:true,poison:true},fox:true,visit:null,
     night:1,phase:'night',step:0,nd:blankNight(),cond:null,queue:[],tap:null,angelWon:false};
+  if(keepPos&&keepPos.length===n)S.game.seatPos=keepPos;
+  S.game.carried=carried;
   enterStep();
 }
 function blankNight(){return {wolf:null,heal:false,poison:null,seer:null,fox:null}}
@@ -501,9 +507,9 @@ const act=r=>(S.counts[r]||0)>0;
 function steps(){const g=G();
   // Tote Rollen behalten ihre Runde: Die Spielleitung ruft sie trotzdem auf, damit niemand merkt, dass sie tot sind.
   const base=(g.night===1?FIRST:LATER).filter(r=>r==='lovers'?act('cupid'):act(r));
-  return [...(g.night===1?['anchors','dusk']:['dusk']),...base,'resolve'];
+  return [...(g.night===1?['anchors','dusk']:['dusk']),...base];
 }
-function curStep(){return steps()[G().step]}
+function curStep(){const s=steps();return s[Math.min(G().step,s.length-1)]}
 function isWolf(i){const g=G(),p=g.p[i];return p.role==='werewolf'||(p.role==='wildchild'&&g.wild)}
 function holders(r){const g=G();
   if(r==='lovers')return g.lovers.slice();
@@ -520,8 +526,14 @@ function slutAway(){const g=G(),s=slutIdx();return s>=0&&g.visit!=null&&g.visit!
 // Schwestern wissen selbst voneinander – die Spielleitung muss sie nicht zuweisen
 const NO_ASSIGN=['sisters'];
 function openRoles(){let c=0;for(const r of SETUP_ROLES.filter(r=>!NO_ASSIGN.includes(r)))c+=Math.max(0,(S.counts[r]||0)-assignedCount(r));return c}
-function foxGroup(c){const n=G().p.length;return [(c-1+n)%n,c,(c+1)%n]}
-function foxHit(c){return foxGroup(c).some(i=>!G().p[i].dead&&isWolf(i))}
+// lebende Nachbarn links/rechts (Sitzreihenfolge)
+function foxGroup(c){const g=G(),n=g.p.length;
+  const nb=d=>{let j=c;for(let k=1;k<n;k++){j=(j+d+n)%n;if(!g.p[j].dead)return j}return c};
+  return [...new Set([nb(-1),c,nb(1)])]}
+// die drei gewählten Plätze (alte Spielstände: nur Mitte gespeichert)
+function foxArr(){const f=G().nd.fox;return Array.isArray(f)?f:f!=null?foxGroup(f):[]}
+function foxNeed(){return Math.min(3,G().p.filter(p=>!p.dead).length)}
+function foxHit(a){return (a||foxArr()).some(i=>!G().p[i].dead&&isWolf(i))}
 function plabel(i){
   const g=G(),p=g.p[i];
   const note=p.note?'📌 '+p.note:'';
@@ -532,7 +544,7 @@ function modes(st){
   const n1=G().night===1;
   const m={anchors:['anchor'],dusk:[],angel:['as:angel'],sisters:[],cupid:n1?['as:cupid','lovers']:[],lovers:['lovers'],
     wildchild:['as:wildchild','model'],slut:n1?['as:slut','visit']:['visit'],werewolf:n1?['as:werewolf','wolf']:['wolf'],
-    seer:n1?['as:seer','seer']:['seer'],fox:n1?['as:fox','fox']:['fox'],witch:n1?['as:witch','poison']:['poison'],resolve:[]}[st]||[];
+    seer:n1?['as:seer']:[],fox:n1?['as:fox','fox']:['fox'],witch:n1?['as:witch','poison']:['poison'],resolve:[]}[st]||[];
   return st==='anchors'?m:[...m,'edit'];
 }
 function enabled(m){
@@ -607,7 +619,7 @@ function tapPlayer(i){
     const prev=p.role;
     commit(t('L_assign',{a:rn(r),b:'+'}),()=>{
       p.role=r;
-      if(assignedCount(r)>=S.counts[r]){const nx=modes(curStep()).find(x=>!x.startsWith('as:')&&x!=='edit'&&x!=='poison');if(nx)g.tap=nx;else if(r==='witch')g.tap='edit'}
+      if(assignedCount(r)>=S.counts[r]){const nx=modes(curStep()).find(x=>!x.startsWith('as:')&&x!=='edit'&&x!=='poison');if(nx)g.tap=nx;else g.tap='edit'}
     });
     if(prev!=='villager')toast(t('replaced',{a:rn(prev),b:rn(r)}));
     return;
@@ -630,7 +642,13 @@ function tapPlayer(i){
     case 'seer':
       ui.peek=false;return commit(t('L_seer'),()=>{g.nd.seer=g.nd.seer===i?null:i});
     case 'fox':
-      return commit(t('L_fox'),()=>{g.nd.fox=g.nd.fox===i?null:i});
+      return commit(t('L_fox'),()=>{
+        const a=foxArr();
+        // erster Tipp (oder Tipp außerhalb einer vollen Auswahl): Platz + Nachbarn; sonst einzelnen Platz an/aus
+        if(!a.length||(a.length>=foxNeed()&&!a.includes(i)))g.nd.fox=foxGroup(i);
+        else if(a.includes(i)){const b=a.filter(x=>x!==i);g.nd.fox=b.length?b:null}
+        else g.nd.fox=[...a,i];
+      });
     case 'poison':
       if(!g.witch.poison)return toast(t('poisonUsed'));
       return commit(t('L_poison'),()=>{g.nd.poison=g.nd.poison===i?null:i});
@@ -656,8 +674,7 @@ function missing(){
   if(g.night===1&&need&&!NO_ASSIGN.includes(st)&&assignedCount(st)<need)miss.push(t('missAssign',{a:rn(st,need>1)}));
   if(st==='werewolf'&&nd.wolf==null)miss.push(t('missWolf'));
   if(st==='slut'&&g.visit==null)miss.push(t('missVisit'));
-  if(st==='seer'&&nd.seer==null)miss.push(t('missSeer'));
-  if(st==='fox'&&g.fox&&nd.fox==null)miss.push(t('missFox'));
+  if(st==='fox'&&g.fox&&foxArr().length<foxNeed())miss.push(t('missFox'));
   if(st==='cupid'&&g.lovers.length<2)miss.push(t('missLovers'));
   if(st==='wildchild'&&g.model==null)miss.push(t('missModel'));
   return miss;
@@ -676,8 +693,8 @@ function resolveNight(){
     const g=G(),r=computeNight(),nd=g.nd;
     if(nd.heal)g.witch.heal=false;
     if(nd.poison!=null)g.witch.poison=false;
-    if(nd.fox!=null&&g.fox&&!foxHit(nd.fox)){g.fox=false}
-    g.today=[];
+    if(foxArr().length&&g.fox&&!foxHit()){g.fox=false}
+    g.today=[];g.nightNotes=r.notes;
     r.deaths.forEach(d=>kill(d.i,d.c[0]));
     g.phase='day';g.cond=null;g.tap='cond';
   });
@@ -817,14 +834,15 @@ function vMap(){
   if(g.phase==='night'&&st==='resolve')computeNight().deaths.forEach(d=>pend.add(d.i));
   const holderSet=new Set();
   if(rev&&st&&WAKE[st])holders(st).forEach(i=>{if(!g.p[i].dead)holderSet.add(i)});
-  const foxSet=new Set(rev&&st==='fox'&&g.nd.fox!=null?foxGroup(g.nd.fox):[]);
+  const foxSet=new Set(rev&&st==='fox'?foxArr():[]);
   let lines='',seats='',notes='';
   // Verbindungslinien nur dann, wenn sie gerade gebraucht werden (Herz-/Stern-Badges bleiben immer sichtbar)
   const showLoverLine=st==='cupid'||st==='lovers'||(q0&&q0.k==='lover');
   if(rev&&showLoverLine&&g.lovers.length===2){const [a,b]=g.lovers.map(pos);lines+=`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#fff" stroke-width="1.4" stroke-dasharray="4 5" opacity=".35"/>`}
   if(rev&&st==='wildchild'&&g.model!=null){const w=g.p.findIndex(p=>p.role==='wildchild');if(w>=0){const [a,b]=[pos(w),pos(g.model)];lines+=`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#fff" stroke-width="1.2" stroke-dasharray="2 5" opacity=".35"/>`}}
   // Rollennamen nur, wenn sie auf dem Bildschirm mindestens ~9 px groß wären
-  const showLabel=r>=26&&r*M.k>=27,fs=Math.max(8,r*.33),is=showLabel?r*.95:r*1.22;
+  // Mit den gezeichneten Icons keine Rollennamen mehr auf der Karte (nur Rollen ohne Icon bekommen Text)
+  const showLabel=false,fs=Math.max(8,r*.33),is=r*1.3;
   const BADGE_ICON={'👑':'mayor','🐺':'werewolf','👁':'seer'};
   const badge=(x,y,txt,bg)=>{const br=Math.max(7,r*.36),ic=BADGE_ICON[txt];
     return `<g><circle cx="${x}" cy="${y}" r="${br}" fill="${bg||'#000'}" stroke="#000" stroke-width="1.5"/>${ic?svgIco(ic,x,y,br*1.6):`<text x="${x}" y="${y}" font-size="${Math.max(8,r*.42)}" text-anchor="middle" dominant-baseline="central">${txt}</text>`}</g>`};
@@ -891,7 +909,7 @@ function vMap(){
     const dim=st==='resolve'&&pend.size&&!pend.has(i);
     seats+=`<g class="seat" data-i="${i}" role="button" tabindex="0" aria-label="${aria}" ${dim?'opacity=".3"':''}><title>${esc(name)}${p.note?' · '+esc(p.note):''}</title>${ring}${inner}${b}</g>`;
   }
-  return `<svg viewBox="0 0 ${M.VW.toFixed(1)} ${M.VH.toFixed(1)}" role="group" aria-label="village"><defs><filter id="vglow" x="-20%" y="-20%" width="140%" height="140%"><feMorphology in="SourceAlpha" operator="dilate" radius="1.2" result="d"/><feFlood flood-color="#fff" flood-opacity=".8"/><feComposite in2="d" operator="in" result="o"/><feMerge><feMergeNode in="o"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>${lines}<g pointer-events="none">${center}</g>${seats}${notes}</svg>`;
+  return `<svg viewBox="0 0 ${M.VW.toFixed(1)} ${M.VH.toFixed(1)}" role="group" aria-label="village">${lines}<g pointer-events="none">${center}</g>${seats}${notes}</svg>`;
 }
 
 /* ---------- panel ---------- */
@@ -1023,10 +1041,25 @@ function winNote(ph){
 }
 /* Immer nur ein Satz zum Vorlesen (Platz sparen):
    Nacht 1, Rolle noch nicht angetippt -> "… wacht auf."; danach bzw. ab Nacht 2 -> der Auftrag. Tote Rolle -> nur Aufwachen. */
+/* Runde mit Auswahl: ist sie getroffen? (null = Runde hat keine eigene Auswahl, z. B. Hexe, Liebende) */
+function stepDone(st){
+  const g=G(),nd=g.nd,need=S.counts[st]||0;
+  const assigned=!(g.night===1&&need&&!NO_ASSIGN.includes(st)&&assignedCount(st)<need);
+  switch(st){
+    case 'werewolf':return assigned&&nd.wolf!=null;
+    case 'fox':return g.fox?assigned&&foxArr().length>=foxNeed():null;
+    case 'slut':return assigned&&g.visit!=null;
+    case 'cupid':return assigned&&g.lovers.length===2;
+    case 'wildchild':return assigned&&g.model!=null;
+    case 'angel':return assigned;
+    default:return null;
+  }
+}
 function sayNow(st,dead){
   const g=G(),need=S.counts[st]||0;
   const unassigned=g.night===1&&need&&!NO_ASSIGN.includes(st)&&assignedCount(st)<need;
   if(dead||unassigned)return wake(st);
+  if(stepDone(st))return wake(st,true);   // Auswahl getroffen -> einschlafen lassen
   return askLine(st)||wake(st);
 }
 function vPanel(){
@@ -1037,11 +1070,11 @@ function vPanel(){
   if(g.queue.length)return vQueue();
   if(g.phase==='day')return vDay();
   const st=curStep(),nd=g.nd,rev=S.reveal;
-  let ann='',body='',ms=modes(st),sleep='',nextBtn='',witchUI=false;
-  const isLast=st==='resolve';
+  let ann='',body='',ms=modes(st),sleep='',nextBtn='',witchUI=false,waiting=false;
+  const isLast=g.step>=steps().length-1;
   if(st==='anchors'){
     ann=`<div class="ann"><div class="ai">📌</div><h2>${t('anchorsTitle')}</h2></div>`;
-    body=`<div class="hint">${t('anchorsText')}</div><div class="row"><button class="outline" data-a="dragOn">↔️ ${t('dragSeats')}</button></div>`;
+    body=(g.carried?`<div class="hint">♻️ ${t('seatsKept')}</div>`:'')+`<div class="hint">${t('anchorsText')}</div><div class="row"><button class="outline" data-a="dragOn">↔️ ${t('dragSeats')}</button>${g.carried?`<button class="ghost" data-a="resetSeating">${t('resetSeating')}</button>`:''}</div>`;
     ms=[]; // Hinweis oben reicht, kein Modus-Knopf nötig
   }else if(st==='dusk'){
     ann=`<div class="phasebar">🌙 ${esc(phaseLabel())}</div><div class="ann"><div class="ai">🌙</div>${sayBlock([t('duskOne')])}</div>`;
@@ -1059,7 +1092,10 @@ function vPanel(){
     ann=`<div class="ann ${dead?'dead':''}"><div class="ai">${ico(st)}</div>${sayBlock([sayNow(st,dead)])}</div>`;
     // Kein Status-Satz mehr ("hexe — lebt"): tot sieht man an der durchgestrichenen Ansage + Hinweis, alles andere auf der Karte.
     body='';
-    sleep=`<div class="sleep"><small>${t('say')}</small><span>${esc(qt(wake(st,true)))}</span></div>`;
+    // eigene Einschlafen-Zeile nur, wenn die Runde keine Auswahl hat (dann wechselt der Satz oben nicht von selbst)
+    const done=dead?null:stepDone(st);
+    if(done===null)sleep=`<div class="sleep"><span>${esc(qt(wake(st,true)))}</span></div>`;
+    waiting=done===false;
     if(dead&&st!=='lovers'){body+=`<div class="hint">${t('deadCall')}</div>`;ms=[]}
     else switch(st){
       case 'angel':case 'sisters':break;
@@ -1077,23 +1113,17 @@ function vPanel(){
         if(nd.wolf!=null&&slutAway()&&nd.wolf===g.visit)body+=`<div class="alert death">💋 ${t('slutHit')}</div>`;
         if(nd.wolf!=null&&slutAway()&&nd.wolf===slutIdx())body+=`<div class="alert info">💋 ${t('slutHomeEmpty')}</div>`;
         break;
-      case 'seer':
-        if(nd.seer!=null){
-          // Seherin sieht nur gut/Werwolf (verwandeltes Wildes Kind = Werwolf)
-          const w=isWolf(nd.seer);
-          if(rev||ui.peek)body+=`<div class="big-result"><span class="bi">${w?'🐺':'🙂'}</span><div><b>${t(w?'seerWolf':'seerGood')}</b></div></div>`;
-          else body+=`<button class="big-result" data-a="peek"><span class="bi">👁</span><b>${t('peek')}</b></button>`;
-        }
-        break;
       case 'fox':
         if(!g.fox){body+=`<div class="big-result"><span class="bi">🚫</span><div><b>${t('foxNoGift')}</b><div class="hint">${t('foxNoGiftHint')}</div></div></div>`;ms=[];break}
-        if(nd.fox!=null)body+=foxHit(nd.fox)?`<div class="big-result"><span class="bi">🐺</span><b>${t('foxYes')}</b></div>`:`<div class="big-result"><span class="bi">∅</span><b>${t('foxNo')}</b></div>`;
+        if(foxArr().length>=foxNeed())body+=foxHit()?`<div class="big-result"><span class="bi">${ico('werewolf')}</span><b>${t('foxYes')}</b></div>`:`<div class="big-result"><span class="bi">∅</span><b>${t('foxNo')}</b></div>`;
         break;
       case 'witch':{
+        // Nacht 1: erst die Hexe zuweisen (eigener Schritt), dann erst Opfer + Tränke zeigen
+        if(g.night===1&&assignedCount('witch')<(S.counts.witch||0)){ms=ms.filter(m=>m.startsWith('as:'));break}
         // Zwei gleich aufgebaute Trank-Knöpfe. Heilen wirkt aufs Werwolf-Opfer; Vergiften: Knopf antippen, dann Person.
         const healAvail=g.witch.heal,poisAvail=g.witch.poison;
         const attackFails=nd.wolf!=null&&slutAway()&&nd.wolf===slutIdx();
-        body+=nd.wolf!=null?`<div class="alert ${attackFails?'':'death'}">🐾 ${esc(t('witchSees',{a:plabel(nd.wolf)}))}</div>`:`<div class="hint">${t('noVictimWitch')}</div>`;
+        body+=nd.wolf!=null?`<div class="alert ${attackFails?'':'death'}">🐾 ${esc(t('witchSees',{a:plabel(nd.wolf)}))}</div>`:'';  // "Niemand wurde angegriffen" steht schon im Satz oben
         if(nd.wolf!=null&&slutAway()&&nd.wolf===g.visit)body+=`<div class="alert death">💋 ${t('slutHit')}</div>`;
         if(attackFails)body+=`<div class="hint">💋 ${t('slutHomeEmpty')}</div>`;
         const canHeal=healAvail&&nd.wolf!=null&&!attackFails;
@@ -1112,9 +1142,11 @@ function vPanel(){
     }
   }
   const back=`<button class="undo backic" data-a="back" ${g.step===0?'disabled':''} aria-label="${t('back')}" title="${t('back')}">‹</button>`;
-  nextBtn=isLast?(resolveHasDeaths?`<button class="nextb red" data-a="resolve">${t('confirmDeaths')}</button>`:`<button class="nextb" data-a="resolve">☀️ ${t('startDay')}</button>`):`<button class="nextb" data-a="next">${t('next')} ›</button>`;
+  nextBtn=isLast?`<button class="nextb ${waiting?'wait':''}" data-a="resolve">☀️ ${t('startDay')}</button>`:`<button class="nextb ${waiting?'wait':''}" data-a="next">${t('next')} ›</button>`;
   // Hexe: in Nacht 1 nur der Zuweisen-Knopf; dessen Hinweis nur, solange gerade zugewiesen wird
-  const chips=!ms.length?'':!witchUI||curMode().startsWith('as:')?chipRow(ms):chipRow(ms).replace(/<div class="hint">[\s\S]*?<\/div>\s*$/,'');
+  // Rolle fertig zugewiesen -> kein Zuweisen-Knopf mehr (Korrektur per langem Druck)
+  if(st&&!(g.night===1&&(S.counts[st]||0)>assignedCount(st)))ms=ms.filter(m=>m!=='as:'+st);
+  const chips=!ms.length||(st&&stepDone(st)===true)?'':!witchUI||curMode().startsWith('as:')?chipRow(ms):chipRow(ms).replace(/<div class="hint">[\s\S]*?<\/div>\s*$/,'');
   return shell(ann,`${body}${chips}`,nav(back+nextBtn,sleep),true);
 }
 function vQueue(){
@@ -1150,7 +1182,8 @@ function vDay(){
   if(inMorning()){
     const list=g.today.length?`<div class="vlist">${g.today.map(i=>deathRow(i,g.p[i].cause?t('c_'+g.p[i].cause):'')).join('')}</div>`:'';
     const ann=`<div class="phasebar day">☀️ ${esc(phaseLabel())}</div><div class="ann"><div class="ai">☀️</div>${sayBlock(morning)}</div>`;
-    return shell(ann,list+body,nav(`<button class="nextb" data-a="morningOk">${t('next')} ›</button>`),true);
+    const notes=(g.nightNotes||[]).map(n=>`<div class="hint">${esc(t(n[0],{a:n[1]||''}))}</div>`).join('');
+    return shell(ann,list+notes+body,nav(`<button class="nextb" data-a="morningOk">${t('next')} ›</button>`),true);
   }
   // Runde 1 des Tages: Bürgermeisterwahl (solange keiner lebt). Hier wird noch nicht eingeschlafen.
   if(nm){
@@ -1261,10 +1294,10 @@ const A={
   cnt:d=>{S.n=Math.max(5,Math.min(99,S.n+ +d.v));preset(S);save();render()},
   role:d=>{const r=d.v,k=r==='sisters'?2:1;if(S.counts[r]>0)S.counts[r]=0;else{if(totalCards()+k>S.n)return toast(t('noRoom'));S.counts[r]=k}save();render()},
   qty:d=>{const r=d.v,dd=+d.d;if(dd>0&&totalCards()>=S.n)return toast(t('noRoom'));S.counts[r]=Math.max(1,(S.counts[r]||0)+dd);save();render()},
-  start:()=>{if(totalCards()>S.n)return toast(t('tooMany'));H=[];newGame();S.screen='game';save();render()},
+  start:()=>{if(totalCards()>S.n)return toast(t('tooMany'));H=[];const L=S.lastSeats,today=L&&L.day===new Date().toDateString()&&L.n===S.n;newGame(today?L.seats:null,today?L.pos:null);S.screen='game';save();render()},
   resume:()=>{S.screen='game';save();render()},
   askNew:()=>{ui.settings=false;askConfirm(t('warnNew'),t('yesDelete'),()=>{S.game=null;H=[];S.screen='lang';save();render()})},
-  askRestart:()=>{ui.settings=false;askConfirm(t('warnRestart'),t('yesRestart'),()=>{const seats=G().p.map(p=>({anchor:p.anchor,note:p.note}));H=[];newGame(seats);save();render()})},
+  askRestart:()=>{ui.settings=false;askConfirm(t('warnRestart'),t('yesRestart'),()=>{const seats=G().p.map(p=>({anchor:p.anchor,note:p.note})),pos=G().seatPos;H=[];newGame(seats,pos);save();render()})},
   cYes:()=>{const f=ui.confirm.fn;ui.confirm=null;renderLayer();f()},
   cNo:()=>{ui.confirm=null;renderLayer()},
   closeLayer:closeLayer,
@@ -1275,7 +1308,7 @@ const A={
   collapse:()=>{S.collapsed=!S.collapsed;save();render()},
   undoTo:d=>{ui.settings=false;undoTo(+d.v)},
   mode:d=>{const g=G();if(g.queue.length)return;g.tap=curMode()===d.v?(g.phase==='day'?'cond':'edit'):d.v;save();render()},
-  next:()=>guard(goNext),back:goBack,dragOn:()=>{ui.settings=false;ui.drag=true;renderLayer();render()},dragOff:()=>{ui.drag=false;save();render()},dragReset:()=>{delete G().seatPos;save();render()},morningOk:()=>commit(t('next'),()=>{G().morningDone=G().night}),resolve:resolveNight,nextNight:()=>{if(G().queue.length)return;guard(nextNight)},
+  resetSeating:()=>{const g=G();g.p.forEach(p=>{p.note='';p.anchor=false});delete g.seatPos;g.carried=false;S.lastSeats=null;save();render()},next:()=>guard(goNext),back:goBack,dragOn:()=>{ui.settings=false;ui.drag=true;renderLayer();render()},dragOff:()=>{ui.drag=false;save();render()},dragReset:()=>{delete G().seatPos;save();render()},morningOk:()=>commit(t('next'),()=>{G().morningDone=G().night}),resolve:()=>guard(resolveNight),nextNight:()=>{if(G().queue.length)return;guard(nextNight)},
   skipMayor:()=>commit(t('skipMayor'),()=>{G().mayorSkip=G().night}),
   potP:()=>{const g=G();if(!g.witch.poison)return toast(t('poisonUsed'));
     if(g.nd.poison!=null){commit(t('L_poison'),()=>{g.nd.poison=null;g.tap='edit'});return}
